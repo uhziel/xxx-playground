@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 function timeout(ms) {
-  return new Promise(reslove => {
-    setTimeout(reslove, ms);
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
   });
 }
 
