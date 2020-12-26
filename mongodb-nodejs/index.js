@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const { MongoClient } = require("mongodb");
 // Replace the uri string with your MongoDB deployment's connection string.
 
