@@ -5,7 +5,7 @@ const router = express.Router();
 
 //login handle
 router.get('/login',(req,res)=>{
-    res.render('login');
+    res.render('login', {success_msg: res.locals.success_msg});
 })
 router.get('/register',(req,res)=>{
     res.render('register')
@@ -56,8 +56,9 @@ router.post('/register',(req,res)=>{
             //save user
             newUser.save()
             .then((value)=>{
-                console.log(value)
-            res.redirect('/users/login');
+              console.log(value);
+              req.flash('success_msg','You have now registered!');
+              res.redirect('/users/login');
             })
             .catch(value=> console.log(value));    
           })
