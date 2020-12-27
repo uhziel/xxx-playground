@@ -2,6 +2,11 @@ const express = require('express');
 const session = require('express-session');
 const flash = require('connect-flash');
 const expressEjsLayout = require('express-ejs-layouts');
+const mongoose = require('mongoose');
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const app = express();
 app.use(session({
@@ -11,6 +16,17 @@ app.use(session({
   saveUninitialized: true
 }));
 app.use(flash());
+app.use(express.urlencoded({extended: false}));
+
+const MONGODB_URI = process.env.MONGODB_URI;
+if (!MONGODB_URI) {
+  console.error('Please config your env MONGODB_URI first.');
+  return 1;
+}
+//mongoose
+mongoose.connect(MONGODB_URI,{useNewUrlParser: true, useUnifiedTopology : true})
+.then(() => console.log('connected,,'))
+.catch((err)=> console.log(err));
 
 //EJS
 app.set('view engine','ejs');
