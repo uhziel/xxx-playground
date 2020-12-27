@@ -3,6 +3,8 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const expressEjsLayout = require('express-ejs-layouts');
 const mongoose = require('mongoose');
+const passport = require('passport');
+require('./config/passport')(passport);
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -15,6 +17,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(flash());
 app.use((req,res,next)=> {
   res.locals.success_msg = req.flash('success_msg');
