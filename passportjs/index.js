@@ -1,25 +1,26 @@
 const express = require('express');
 const session = require('express-session');
 const flash = require('connect-flash');
+const expressEjsLayout = require('express-ejs-layouts');
 
 const app = express();
 app.use(session({
-  secret: 'wowuqu'
+  secret: 'wowuqu',
+  name: 'sessionId',
+  resave: false,
+  saveUninitialized: true
 }));
 app.use(flash());
 
+//EJS
+app.set('view engine','ejs');
+app.use(expressEjsLayout);
+
 const PORT = 3000;
 
-app.get('/', function(req, res) {
-  req.flash('word', 'hi, flash!');
-  res.redirect('/flash');
-  
-});
-
-app.get('/flash', function(req, res) {
-  const word = req.flash('word');
-  res.send(`helloworld ${word}`);
-});
+//Routes
+app.use('/',require('./routes/index'));
+app.use('/users',require('./routes/users'))
 
 app.listen(PORT, function() {
   console.log(`Listen at port ${PORT}.`);
