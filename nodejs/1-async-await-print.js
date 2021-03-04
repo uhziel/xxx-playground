@@ -8,8 +8,9 @@ function timeout(ms) {
 
 async function asyncPrint(msg, ms) {
   console.log('waiting');
+  const startedAt = process.hrtime.bigint();
   await timeout(ms);
-  console.log(msg);
+  console.log(`${msg}. after ${process.hrtime.bigint() - startedAt} nanoseconds.`);
 }
 
 async function asyncLoop() {
