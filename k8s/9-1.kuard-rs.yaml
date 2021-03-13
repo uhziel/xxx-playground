@@ -1,3 +1,42 @@
+# 可以通过修改下面 replicas: 1 的大小来水平缩放，只要应用本文件 kubectl apply -f 9-1.kuard-rs.yaml 即可
+# 确实 rs 是根据 Selector 来看相关的 pods 数量是否够。我手动去除 label 后让其找不到，它会自己创建一个。在 Events 里也不会有它通过 rs 的删除。
+# 这个可以用于移除问题 Pods 然后进行调试。
+# zhulei-mac:k8s zhulei$ microk8s kubectl label pod kuard-vnhjl "version-"
+# pod/kuard-vnhjl labeled
+# zhulei-mac:k8s zhulei$ microk8s kubectl get pods --show-labels
+# NAME          READY   STATUS    RESTARTS   AGE     LABELS
+# kuard-vnhjl   1/1     Running   0          6m17s   app=kuard
+# kuard-gs7x6   1/1     Running   0          23s     app=kuard,version=2
+# zhulei-mac:k8s zhulei$ microk8s kubectl describe rs kuard
+# Name:         kuard
+# Namespace:    default
+# Selector:     app=kuard,version=2
+# Labels:       <none>
+# Annotations:  kubectl.kubernetes.io/last-applied-configuration:
+#                 {"apiVersion":"apps/v1","kind":"ReplicaSet","metadata":{"annotations":{},"name":"kuard","namespace":"default"},"spec":{"replicas":1,"selec...
+# Replicas:     1 current / 1 desired
+# Pods Status:  1 Running / 0 Waiting / 0 Succeeded / 0 Failed
+# Pod Template:
+#   Labels:  app=kuard
+#            version=2
+#   Containers:
+#    kuard:
+#     Image:        gcr.io/kuar-demo/kuard-amd64:green
+#     Port:         <none>
+#     Host Port:    <none>
+#     Environment:  <none>
+#     Mounts:       <none>
+#   Volumes:        <none>
+# Events:
+#   Type    Reason            Age   From                   Message
+#   ----    ------            ----  ----                   -------
+#   Normal  SuccessfulCreate  7m7s  replicaset-controller  Created pod: kuard-vnhjl
+#   Normal  SuccessfulCreate  5m    replicaset-controller  Created pod: kuard-qdhl5
+#   Normal  SuccessfulDelete  4m4s  replicaset-controller  Deleted pod: kuard-qdhl5
+#   Normal  SuccessfulCreate  73s   replicaset-controller  Created pod: kuard-gs7x6
+# 快速缩放 kubectl scale rs kuard --replicas=3，记得改后同步配置文件
+# 删除 rs 及所属的 pods kubectl delete rs kuard
+
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
