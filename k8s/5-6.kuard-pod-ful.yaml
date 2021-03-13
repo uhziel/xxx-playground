@@ -1,0 +1,46 @@
+#Events:
+#  Type     Reason            Age        From                  Message
+#  ----     ------            ----       ----                  -------
+#  Warning  FailedScheduling  <unknown>                        0/1 nodes are available: 1 Insufficient cpu.
+#  Warning  FailedScheduling  <unknown>                        0/1 nodes are available: 1 Insufficient cpu.
+#  Normal   Scheduled         <unknown>                        Successfully assigned default/kuard-ful to microk8s-vm
+#  Normal   Pulled            51s        kubelet, microk8s-vm  Container image "gcr.io/kuar-demo/kuard-amd64:blue" already present on machine
+#  Normal   Created           50s        kubelet, microk8s-vm  Created container kuard
+#  Normal   Started           50s        kubelet, microk8s-vm  Started container kuard
+# 资源不够，我删除了一些 Pods，恢复正常
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard-ful
+spec:
+  volumes:
+    - name: "kuard-data"
+      hostPath:
+        path: "/var/lib/kuard"
+  containers:
+    - image: gcr.io/kuar-demo/kuard-amd64:blue
+      name: kuard
+      livenessProbe:
+        httpGet:
+          path: /healthy
+          port: 8080
+        initialDelaySeconds: 5
+        timeoutSeconds: 1
+        periodSeconds: 10
+        failureThreshold: 3
+      resources:
+        requests:
+          cpu: "500m" # 0.5 cpu
+          memory: "128Mi"
+        limits:
+          cpu: "1000m"
+          memory: "256Mi"
+      volumeMounts:
+        - mountPath: "/data"
+          name: "kuard-data"
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+  
