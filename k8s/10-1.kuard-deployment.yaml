@@ -1,0 +1,21 @@
+# 应用部署 kubectl create -f 10-1.kuard-deployment.yaml。比较奇怪，这里用的是 create 而不是 apply。
+# 缩放部署 kubectl scale deployments kuard --replicas=2，不要缩放 rs，因为 rs 被 deployment 管理，会自动被治愈
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard
+spec:
+  selector:
+    matchLabels:
+      run: kuard
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: kuard
+    spec:
+      containers:
+        - name: kuard
+          image: gcr.io/kuar-demo/kuard-amd64:blue
