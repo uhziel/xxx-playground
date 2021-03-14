@@ -1,0 +1,42 @@
+# 通过link完成的映射，应该是为了方便更新数据
+# /config $ ls -al
+# total 12
+# drwxrwxrwx    3 root     root          4096 Mar 14 07:09 .
+# drwxr-xr-x    1 root     root          4096 Mar 14 07:09 ..
+# drwxr-xr-x    2 root     root          4096 Mar 14 07:09 ..2021_03_14_07_09_06.196326216
+# lrwxrwxrwx    1 root     root            31 Mar 14 07:09 ..data -> ..2021_03_14_07_09_06.196326216
+# lrwxrwxrwx    1 root     root            25 Mar 14 07:09 13-1.my-config.txt -> ..data/13-1.my-config.txt
+# lrwxrwxrwx    1 root     root            20 Mar 14 07:09 another-param -> ..data/another-param
+# lrwxrwxrwx    1 root     root            18 Mar 14 07:09 extra-param -> ..data/extra-param
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard-config
+spec:
+  containers:
+    - name: test-container
+      image: gcr.io/kuar-demo/kuard-amd64:blue
+      imagePullPolicy: Always
+      command:
+        - "/kuard"
+        - "$(EXTRA_PARAM)"
+      env:
+        - name: ANOTHER_PARAM
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: another-param
+        - name: EXTRA_PARAM
+          valueFrom:
+            configMapKeyRef:
+              name: my-config
+              key: extra-param
+      volumeMounts:
+        - name: config-volume
+          mountPath: /config
+  volumes:
+    - name: config-volume
+      configMap:
+        name: my-config
+  restartPolicy: Never
