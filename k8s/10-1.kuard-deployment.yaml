@@ -6,10 +6,12 @@
 # deployment.apps/kuard 
 # REVISION  CHANGE-CAUSE
 # 1         <none>
+# 2         Update to green kuard
 # 查看当前部署的状态
 # kubectl rollout status deployment kuard
 # deployment "kuard" successfully rolled out
 # 缩放部署只需改 replicas: 1 再 apply 即可，比较简单
+# upgrade部署则需改其他并且加 annotations 再 apply
 
 apiVersion: apps/v1
 kind: Deployment
@@ -24,7 +26,10 @@ spec:
     metadata:
       labels:
         run: kuard
+      annotations:
+        kubernetes.io/change-cause: "Update to green kuard"
     spec:
       containers:
         - name: kuard
-          image: gcr.io/kuar-demo/kuard-amd64:blue
+          image: gcr.io/kuar-demo/kuard-amd64:green
+          imagePullPolicy: Always
