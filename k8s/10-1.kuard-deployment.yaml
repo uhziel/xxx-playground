@@ -3,6 +3,7 @@
 # kubectl describe deployments kuard 查看描述
 # 查看部署历史
 # kubectl rollout history deployment kuard
+# kubectl rollout history deployment kuard --revision=2 # 这个是查指定 revision 更详细信息的
 # deployment.apps/kuard 
 # REVISION  CHANGE-CAUSE
 # 1         <none>
@@ -10,8 +11,12 @@
 # 查看当前部署的状态
 # kubectl rollout status deployment kuard
 # deployment "kuard" successfully rolled out
+# 撤销部署 这个方式虽然快，但更好的方式是 git 中撤销文件再 apply
+# kubectl rollout undo deployment kuard
 # 缩放部署只需改 replicas: 1 再 apply 即可，比较简单
 # upgrade部署则需改其他并且加 annotations 再 apply
+# 删除部署
+# kubectl delete -f 10-1.kuard-deployment.yaml
 
 apiVersion: apps/v1
 kind: Deployment
@@ -27,9 +32,9 @@ spec:
       labels:
         run: kuard
       annotations:
-        kubernetes.io/change-cause: "Update to green kuard"
+        kubernetes.io/change-cause: "Update to blue kuard"
     spec:
       containers:
         - name: kuard
-          image: gcr.io/kuar-demo/kuard-amd64:green
+          image: gcr.io/kuar-demo/kuard-amd64:blue
           imagePullPolicy: Always
