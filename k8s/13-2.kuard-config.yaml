@@ -8,6 +8,21 @@
 # lrwxrwxrwx    1 root     root            25 Mar 14 07:09 13-1.my-config.txt -> ..data/13-1.my-config.txt
 # lrwxrwxrwx    1 root     root            20 Mar 14 07:09 another-param -> ..data/another-param
 # lrwxrwxrwx    1 root     root            18 Mar 14 07:09 extra-param -> ..data/extra-param
+# 查看 configmap object 的内容
+# kubectl get configmap my-config -o yaml # ConfigMap data values are simple UTF-8 text specified directly in the manifest
+# apiVersion: v1
+# data:
+#   13-1.my-config.txt: |
+#     # kubectl create configmap my-config \
+#     # --from-file=my-config.txt \
+#     # --from-literal=extra-param=extra-value \
+#     # --from-literal=another-param=another-value
+#     # This is a sample config file that I might use to configure an application
+#     parameter1 = value1
+#     parameter2 = value2
+#   another-param: another-value
+#   extra-param: extra-value
+# kind: ConfigMap
 
 apiVersion: v1
 kind: Pod
