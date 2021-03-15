@@ -1,0 +1,11 @@
+version: '3.2'
+services:
+  yireader:
+    build: ./
+    restart: always
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 11577:11577
+    volumes:
+      - ./db.sqlite:/app/db.sqlite
