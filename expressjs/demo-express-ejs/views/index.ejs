@@ -7,5 +7,33 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <p>Maked by me.</p>
+    <%# 演示 if 结构 %>
+    <% if (title === 'Express') { %>
+      <p>if <%= title %></p>
+    <% } else { %>
+      <p>else <%= title %></p>
+    <% } %>
+    <%# 演示 for 结构 %>
+    <ol>
+      <% for (let i = 0; i < fruits.length; i++) { %>
+        <li><%= fruits[i] %></li>
+      <% } %>
+    </ol>
+    <%# 演示 forEach 结构 %>
+    <ul>
+      <% fruits.forEach(function (fruit) { %>
+        <li foo='<%= fruit + "'" %>'>forEach <%= fruit %></li>
+      <% }) %>
+    </ul>
+    <%# 演示自带函数 %>
+    <p><%= fruits.join(', ') %></p>
+    <%# 演示调用自定义函数 %>
+    <% function fruit(fruit) { %>
+      <li>function versin: <%= fruit %></li>
+    <% } %>
+    <% fruits.map(fruit) %>
+    <%# 演示 include %>
+    <%- include('./hello') %>
   </body>
 </html>
