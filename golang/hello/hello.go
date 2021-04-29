@@ -1,12 +1,3 @@
-package main
-
-import (
-	"fmt"
-
-	"example.com/greetings"
-	"rsc.io/quote"
-)
-
 /*
 //https://golang.org/doc/tutorial/getting-started
 # 一、初始化 module
@@ -63,8 +54,25 @@ require (
 
 replace example.com/greetings => ../greetings
 */
+
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"example.com/greetings"
+	"rsc.io/quote"
+)
+
 func main() {
+	log.SetPrefix("greetings: ")
+	log.SetFlags(0)
+
 	fmt.Println(quote.Go())
-	message := greetings.Hello("zhulei")
+	message, err := greetings.Hello("")
+	if err != nil {
+		log.Fatal("your name is empty")
+	}
 	fmt.Println(message)
 }
