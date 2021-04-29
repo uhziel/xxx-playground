@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+https://developer.mozilla.org/en-US/docs/Learn/Forms/Your_first_form
+https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_structure_a_web_form
+-->
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>登陆演示</title>
+        <link href="form.css" rel="stylesheet">
+    </head>
+    <body>
+        <form action="/ink/login" method="POST">
+            <h1>登录</h1>
+            <fieldset>
+                <legend>Title</legend>
+                <ul>
+                    <li>
+                      <label for="title_1">
+                        <input type="radio" id="title_1" name="title" value="K" >
+                        King
+                      </label>
+                    </li>
+                    <li>
+                      <label for="title_2">
+                        <input type="radio" id="title_2" name="title" value="Q">
+                        Queen
+                      </label>
+                    </li>
+                    <li>
+                      <label for="title_3">
+                        <input type="radio" id="title_3" name="title" value="J">
+                        Joker
+                      </label>
+                    </li>
+                </ul>
+            </fieldset>
+            <p>
+                <label for="inputUsername">用户名</label>
+                <input type="text" id="inputUsername" name="inputUsername" placeholder="用户名" required>      
+            </p>
+            <p>
+                <label for="inputPassword">密码</label>
+                <input type="password" id="inputPassword" name="inputPassword" placeholder="密码" required>
+            </p>
+            <p>
+                <button type="submit" >提交</b-button>
+            </p>
+        </form>
+    </body>
+</html>
