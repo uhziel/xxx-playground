@@ -70,7 +70,7 @@ func main() {
 	log.SetFlags(0)
 
 	fmt.Println(quote.Go())
-	message, err := greetings.Hello("")
+	message, err := greetings.Hello("zhulei")
 	if err != nil {
 		log.Fatal("your name is empty")
 	}
