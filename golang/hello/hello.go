@@ -70,9 +70,13 @@ func main() {
 	log.SetFlags(0)
 
 	fmt.Println(quote.Go())
-	message, err := greetings.Hello("zhulei")
+	names := []string{
+		"zhulei",
+		"lilei",
+	}
+	messages, err := greetings.Hellos(names)
 	if err != nil {
 		log.Fatal("your name is empty")
 	}
-	fmt.Println(message)
+	fmt.Println(messages)
 }
