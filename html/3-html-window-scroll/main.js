@@ -22,4 +22,7 @@ container.addEventListener("click", ev => {
     // via ms 的这个页面提供了非常好的引用
     console.log("clientX:", ev.clientX, " clientY:", ev.clientY);
     console.log("isClickedRightSide:", isClickedRightSide(window.innerWidth, ev.clientX));
+    let offsetY = window.innerHeight * (isClickedRightSide(window.innerWidth, ev.clientX) ? 0.8: -0.8);
+    console.log("window.scrollBy(0, %d);", offsetY);
+    window.scrollBy(0, offsetY);
 });
