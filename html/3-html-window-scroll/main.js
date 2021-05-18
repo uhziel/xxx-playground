@@ -10,3 +10,16 @@ window.onresize = function () {
     console.log("screen.width: ", screen.width); //显示器分辨率，单位是硬件设备的分辨率
     console.log("screen.height: ", screen.height);
 };
+
+function isClickedRightSide(width, x) {
+    console.log("isClickedRightSide x:", x, "width / 3:", width /3);
+    return x > width / 3;
+}
+
+const container = document.getElementById("container");
+container.addEventListener("click", ev => {
+    //https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX
+    // via ms 的这个页面提供了非常好的引用
+    console.log("clientX:", ev.clientX, " clientY:", ev.clientY);
+    console.log("isClickedRightSide:", isClickedRightSide(window.innerWidth, ev.clientX));
+});
