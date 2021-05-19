@@ -1,0 +1,31 @@
+package main
+
+import (
+	"fmt"
+	"path/filepath"
+)
+
+/*
+https://gobyexample.com/file-paths
+https://pkg.go.dev/path/filepath?utm_source=gopls#section-documentation
+*/
+
+const FILE1 = "/home/zhulei/workspace/xxx-playground/golang/file-path/go.mod"
+const FILE2 = "go.mod"
+const DIR1 = "/home/zhulei/workspace/xxx-playground/golang/file-path"
+const DIR2 = "/home/zhulei/workspace/xxx-playground/golang/file-path/"
+
+func printFilePath(PATH string) {
+	fmt.Println("==")
+	fmt.Println("PATH:", PATH)
+	fmt.Printf("Dir: %s, Base: %s, Ext: %s$\n", filepath.Dir(PATH), filepath.Base(PATH), filepath.Ext(PATH))
+	dir, file := filepath.Split(PATH) // Split() 主要是把路径字符串切分为两部分。和上面的 Dir() 有细微的差别，具体请看程序输出
+	fmt.Printf("Split (Dir: %s, Base: %s)\n", dir, file)
+}
+
+func main() {
+	printFilePath(FILE1)
+	printFilePath(FILE2)
+	printFilePath(DIR1)
+	printFilePath(DIR2)
+}
