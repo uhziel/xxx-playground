@@ -11,7 +11,8 @@ https://pkg.go.dev/path/filepath?utm_source=gopls#section-documentation
 */
 
 const FILE1 = "/home/zhulei/workspace/xxx-playground/golang/file-path/go.mod"
-const FILE2 = "go.mod"
+const FILE2 = "/home/zhulei/workspace/xxx-playground/golang/file-path/foobar"
+const FILE3 = "go.mod"
 const DIR1 = "/home/zhulei/workspace/xxx-playground/golang/file-path"
 const DIR2 = "/home/zhulei/workspace/xxx-playground/golang/file-path/"
 
