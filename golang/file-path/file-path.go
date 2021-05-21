@@ -22,11 +22,13 @@ func printFilePath(PATH string) {
 	fmt.Printf("Dir: %s, Base: %s, Ext: %s$\n", filepath.Dir(PATH), filepath.Base(PATH), filepath.Ext(PATH))
 	dir, file := filepath.Split(PATH) // Split() 主要是把路径字符串切分为两部分。和上面的 Dir() 有细微的差别，具体请看程序输出
 	fmt.Printf("Split (Dir: %s, Base: %s)\n", dir, file)
+	fmt.Printf("Join .. : %s\n", filepath.Join(PATH, ".."))
 }
 
 func main() {
 	printFilePath(FILE1)
 	printFilePath(FILE2)
+	printFilePath(FILE3)
 	printFilePath(DIR1)
 	printFilePath(DIR2)
 }
