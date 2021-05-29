@@ -1,13 +1,5 @@
-package main
-
-import (
-	"fmt"
-
-	"rsc.io/quote"
-)
-
-//https://golang.org/doc/tutorial/getting-started
 /*
+//https://golang.org/doc/tutorial/getting-started
 # 一、初始化 module
 $ go mod init example.com/hello
 go: creating new go.mod: module example.com/hello
@@ -42,6 +34,49 @@ go 1.16
 
 require rsc.io/quote v1.5.2
 */
+
+/*
+#https://golang.google.cn/doc/tutorial/call-module-code
+# 使用本地编写的包
+# 一、代码中导入依赖关系
+# import "example.com/greetings"
+# 二、hello module 编辑replace
+$ go mod edit -replace=example.com/greetings=../greetings
+$ go mod tidy
+module example.com/hello
+
+go 1.13
+
+require (
+        example.com/greetings v0.0.0-00010101000000-000000000000
+        rsc.io/quote v1.5.2
+)
+
+replace example.com/greetings => ../greetings
+*/
+
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"example.com/greetings"
+	"rsc.io/quote"
+)
+
 func main() {
+	log.SetPrefix("greetings: ")
+	log.SetFlags(0)
+
 	fmt.Println(quote.Go())
+	names := []string{
+		"zhulei",
+		"lilei",
+	}
+	messages, err := greetings.Hellos(names)
+	if err != nil {
+		log.Fatal("your name is empty")
+	}
+	fmt.Println(messages)
 }
