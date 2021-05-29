@@ -1,0 +1,51 @@
+<!-- container elem 的内容过多，触发滚动条。可见区域包括 content box + padding box，这个其实也就是差不多 clientHeight 的数据，而不仅仅是 content box。 -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My test page</title>
+    <style>
+      p {
+        line-height: 1;
+        margin: 0;
+      }
+      #container {
+        padding: 10em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" style="overflow-y: auto; height: 300px;">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sodales, mauris in interdum dictum, libero libero tristique lacus, eget rutrum sem est tincidunt dui. In hac habitasse platea dictumst. Ut est tortor, consequat sit amet leo ut, maximus sagittis ante. Sed at lectus mauris. In enim diam, sodales non gravida vitae, ullamcorper gravida leo. Aenean pulvinar dictum ipsum non tristique. Curabitur quis tortor suscipit, dictum libero a, sagittis odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+
+      <p>Donec quis felis libero. Fusce sit amet pellentesque quam. Integer quis volutpat dui. Sed dictum viverra dictum. Nullam placerat et felis ut varius. Curabitur mollis vehicula commodo. Suspendisse viverra sit amet nulla sit amet malesuada.</p>
+  
+      <p>Suspendisse potenti. Nunc commodo vel elit vel malesuada. Nulla non ante nec arcu malesuada congue. In ut condimentum nulla. Mauris suscipit est sit amet metus rhoncus, eget porttitor mauris convallis. Nulla sit amet cursus mi, et tincidunt dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce molestie felis at justo sollicitudin, non condimentum orci pellentesque. Quisque in ante at mauris porttitor ornare nec et velit. Aliquam mi orci, volutpat sit amet fringilla sed, mollis nec lorem. Nunc sit amet convallis turpis, eu auctor dui. Etiam auctor mi in lorem faucibus, vel feugiat libero tempus. Nulla facilisi. Proin facilisis libero nisl, eu mollis est ullamcorper in. Nam ullamcorper mollis odio, eu vehicula magna ornare vitae. Mauris nec pharetra augue.</p>
+  
+      <p>Aliquam interdum, augue ullamcorper posuere consequat, dolor libero vehicula tellus, et dapibus orci ipsum vel leo. Maecenas molestie fringilla magna mollis luctus. Donec ultricies eleifend feugiat. Curabitur quis venenatis metus, tincidunt vestibulum augue. Integer non mollis mauris. Aenean bibendum consectetur varius. Duis eget odio quis magna tristique tristique ac vitae neque. Nulla facilisi. Praesent eu facilisis ipsum, eu convallis nisl. Pellentesque congue tempor massa at aliquam.</p>
+  
+      <p>Ut pulvinar ex at ante dictum, vitae iaculis dui pretium. Suspendisse rhoncus condimentum tortor ac mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam vulputate tristique purus quis bibendum. Donec feugiat mattis sodales. Suspendisse eu auctor ligula. Donec quis justo odio. Praesent sed suscipit est. Nulla posuere nisl ac placerat vestibulum. Integer vulputate, sapien non luctus ultrices, nibh enim ullamcorper lorem, ut semper ligula tellus quis turpis. Etiam interdum lectus ac auctor rhoncus. Sed nulla nulla, ullamcorper pulvinar nisl vitae, varius dapibus mi. Sed augue nulla, efficitur in consectetur et, hendrerit ut purus. Aenean laoreet eros a leo gravida tempor. Mauris at mauris mauris.</p>
+  
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sodales, mauris in interdum dictum, libero libero tristique lacus, eget rutrum sem est tincidunt dui. In hac habitasse platea dictumst. Ut est tortor, consequat sit amet leo ut, maximus sagittis ante. Sed at lectus mauris. In enim diam, sodales non gravida vitae, ullamcorper gravida leo. Aenean pulvinar dictum ipsum non tristique. Curabitur quis tortor suscipit, dictum libero a, sagittis odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+  
+      <p>Donec quis felis libero. Fusce sit amet pellentesque quam. Integer quis volutpat dui. Sed dictum viverra dictum. Nullam placerat et felis ut varius. Curabitur mollis vehicula commodo. Suspendisse viverra sit amet nulla sit amet malesuada.</p>
+  
+      <p>Suspendisse potenti. Nunc commodo vel elit vel malesuada. Nulla non ante nec arcu malesuada congue. In ut condimentum nulla. Mauris suscipit est sit amet metus rhoncus, eget porttitor mauris convallis. Nulla sit amet cursus mi, et tincidunt dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce molestie felis at justo sollicitudin, non condimentum orci pellentesque. Quisque in ante at mauris porttitor ornare nec et velit. Aliquam mi orci, volutpat sit amet fringilla sed, mollis nec lorem. Nunc sit amet convallis turpis, eu auctor dui. Etiam auctor mi in lorem faucibus, vel feugiat libero tempus. Nulla facilisi. Proin facilisis libero nisl, eu mollis est ullamcorper in. Nam ullamcorper mollis odio, eu vehicula magna ornare vitae. Mauris nec pharetra augue.</p>
+  
+      <p>Aliquam interdum, augue ullamcorper posuere consequat, dolor libero vehicula tellus, et dapibus orci ipsum vel leo. Maecenas molestie fringilla magna mollis luctus. Donec ultricies eleifend feugiat. Curabitur quis venenatis metus, tincidunt vestibulum augue. Integer non mollis mauris. Aenean bibendum consectetur varius. Duis eget odio quis magna tristique tristique ac vitae neque. Nulla facilisi. Praesent eu facilisis ipsum, eu convallis nisl. Pellentesque congue tempor massa at aliquam.</p>
+  
+      <p>Ut pulvinar ex at ante dictum, vitae iaculis dui pretium. Suspendisse rhoncus condimentum tortor ac mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam vulputate tristique purus quis bibendum. Donec feugiat mattis sodales. Suspendisse eu auctor ligula. Donec quis justo odio. Praesent sed suscipit est. Nulla posuere nisl ac placerat vestibulum. Integer vulputate, sapien non luctus ultrices, nibh enim ullamcorper lorem, ut semper ligula tellus quis turpis. Etiam interdum lectus ac auctor rhoncus. Sed nulla nulla, ullamcorper pulvinar nisl vitae, varius dapibus mi. Sed augue nulla, efficitur in consectetur et, hendrerit ut purus. Aenean laoreet eros a leo gravida tempor. Mauris at mauris mauris.</p>
+  
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sodales, mauris in interdum dictum, libero libero tristique lacus, eget rutrum sem est tincidunt dui. In hac habitasse platea dictumst. Ut est tortor, consequat sit amet leo ut, maximus sagittis ante. Sed at lectus mauris. In enim diam, sodales non gravida vitae, ullamcorper gravida leo. Aenean pulvinar dictum ipsum non tristique. Curabitur quis tortor suscipit, dictum libero a, sagittis odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+  
+      <p>Donec quis felis libero. Fusce sit amet pellentesque quam. Integer quis volutpat dui. Sed dictum viverra dictum. Nullam placerat et felis ut varius. Curabitur mollis vehicula commodo. Suspendisse viverra sit amet nulla sit amet malesuada.</p>
+  
+      <p>Suspendisse potenti. Nunc commodo vel elit vel malesuada. Nulla non ante nec arcu malesuada congue. In ut condimentum nulla. Mauris suscipit est sit amet metus rhoncus, eget porttitor mauris convallis. Nulla sit amet cursus mi, et tincidunt dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce molestie felis at justo sollicitudin, non condimentum orci pellentesque. Quisque in ante at mauris porttitor ornare nec et velit. Aliquam mi orci, volutpat sit amet fringilla sed, mollis nec lorem. Nunc sit amet convallis turpis, eu auctor dui. Etiam auctor mi in lorem faucibus, vel feugiat libero tempus. Nulla facilisi. Proin facilisis libero nisl, eu mollis est ullamcorper in. Nam ullamcorper mollis odio, eu vehicula magna ornare vitae. Mauris nec pharetra augue.</p>
+  
+      <p>Aliquam interdum, augue ullamcorper posuere consequat, dolor libero vehicula tellus, et dapibus orci ipsum vel leo. Maecenas molestie fringilla magna mollis luctus. Donec ultricies eleifend feugiat. Curabitur quis venenatis metus, tincidunt vestibulum augue. Integer non mollis mauris. Aenean bibendum consectetur varius. Duis eget odio quis magna tristique tristique ac vitae neque. Nulla facilisi. Praesent eu facilisis ipsum, eu convallis nisl. Pellentesque congue tempor massa at aliquam.</p>
+  
+      <p>Ut pulvinar ex at ante dictum, vitae iaculis dui pretium. Suspendisse rhoncus condimentum tortor ac mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam vulputate tristique purus quis bibendum. Donec feugiat mattis sodales. Suspendisse eu auctor ligula. Donec quis justo odio. Praesent sed suscipit est. Nulla posuere nisl ac placerat vestibulum. Integer vulputate, sapien non luctus ultrices, nibh enim ullamcorper lorem, ut semper ligula tellus quis turpis. Etiam interdum lectus ac auctor rhoncus. Sed nulla nulla, ullamcorper pulvinar nisl vitae, varius dapibus mi. Sed augue nulla, efficitur in consectetur et, hendrerit ut purus. Aenean laoreet eros a leo gravida tempor. Mauris at mauris mauris.</p>  
+    </div>
+  </body>
+</html>
