@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 )
 
 /*
@@ -25,10 +26,25 @@ func printFilePath(PATH string) {
 	fmt.Printf("Join .. : %s\n", filepath.Join(PATH, ".."))
 }
 
+func getCheckedFiles(path, dir string) []string {
+	var checkedFiles []string
+	if !strings.HasPrefix(path, dir) {
+		return checkedFiles
+	}
+	dir = filepath.Join(dir, ".")
+	for checkedFile := path; dir != checkedFile; checkedFile = filepath.Dir(checkedFile) {
+		checkedFiles = append(checkedFiles, checkedFile+".meta")
+	}
+	return checkedFiles
+}
+
 func main() {
 	printFilePath(FILE1)
 	printFilePath(FILE2)
 	printFilePath(FILE3)
 	printFilePath(DIR1)
 	printFilePath(DIR2)
+	for _, checkedFile := range getCheckedFiles(FILE1, "/home/zhulei/workspace/xxx-playground") {
+		fmt.Println(checkedFile)
+	}
 }
