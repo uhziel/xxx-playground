@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"log"
 	"os/exec"
 )
@@ -46,4 +47,19 @@ func main() {
 	   2021/05/18 17:10:22 git show: <nil>
 	   2021/05/18 17:10:37 git show: exit status 128
 	*/
+
+	// 演示使用 stdin via https://golang.org/src/os/exec/example_test.go
+	cmd = exec.Command("cat", "-")
+	stdin, err := cmd.StdinPipe()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	io.WriteString(stdin, "test_stdin: hello, zhulei")
+	stdin.Close()
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", out)
 }
