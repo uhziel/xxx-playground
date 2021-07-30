@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promtail
+spec:
+  selector:
+    matchLabels:
+      app: promtail
+  template:
+    metadata:
+      labels:
+        app: promtail
+    spec:
+      volumes:
+        - name: app_data
+          persistentVolumeClaim:
+            claimName: app_data
+      containers:
+        - name: promtail
+          image: grafana/promtail:1.6.1
+          resources:
+            limits:
+              memory: "64Mi"
+              cpu: "250m"
+          volumeMounts:
+            - mountPath: /var/log
+              name: app_data

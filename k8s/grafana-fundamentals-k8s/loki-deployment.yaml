@@ -1,22 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana
+  name: loki
 spec:
   selector:
     matchLabels:
-      app: grafana
+      app: loki
   template:
     metadata:
       labels:
-        app: grafana
+        app: loki
     spec:
       containers:
-        - name: grafana
-          image: grafana/grafana:7.3.6
+        - name: loki
+          image: grafana/loki:1.6.1
+          args:
+            - "-config.file=/etc/loki/local-config.yaml"
           resources:
             limits:
               memory: "64Mi"
               cpu: "250m"
           ports:
-            - containerPort: 3000
+            - containerPort: 3100

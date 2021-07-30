@@ -1,22 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana
+  name: db
 spec:
   selector:
     matchLabels:
-      app: grafana
+      app: db
   template:
     metadata:
       labels:
-        app: grafana
+        app: db
     spec:
       containers:
-        - name: grafana
-          image: grafana/grafana:7.3.6
+        - name: db
+          image: grafana/tns-db:latest
+          args:
+            - "-log.level=debug"
           resources:
             limits:
               memory: "64Mi"
               cpu: "250m"
           ports:
-            - containerPort: 3000
+            - containerPort: 80
+          restartPolicy: Always

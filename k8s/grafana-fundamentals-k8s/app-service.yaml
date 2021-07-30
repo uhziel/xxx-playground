@@ -1,0 +1,16 @@
+# 参考的 docker-compose.yml https://github.com/grafana/tutorial-environment
+# 相关的示例app https://github.com/grafana/tns
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app
+  labels:
+    app: app
+spec:
+  type: LoadBalancer
+  selector:
+    app: app
+  ports:
+  - port: 8081
+    targetPort: 80

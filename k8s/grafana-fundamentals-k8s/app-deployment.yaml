@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      volumes:
+        - name: app_data
+          persistentVolumeClaim:
+            claimName: app_data
+      containers:
+        - name: app
+          image: grafana/tns-app:latest
+          args:
+            - "-log.level=debug"
+            - "http://db"
+          resources:
+            limits:
+              memory: "64Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 80
