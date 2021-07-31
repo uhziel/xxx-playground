@@ -21,7 +21,7 @@ spec:
           resources:
             limits:
               memory: "64Mi"
-              cpu: "250m"
+              cpu: "100m"
           volumeMounts:
             - mountPath: /var/log
               name: app-data
