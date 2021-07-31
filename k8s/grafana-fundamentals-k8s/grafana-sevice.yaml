@@ -5,6 +5,7 @@ metadata:
   labels:
     app: grafana
 spec:
+  type: LoadBalancer
   selector:
     app: grafana
   ports:

@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: prometheus
 spec:
-  type: LoadBalancer
   selector:
     app: prometheus
   ports:

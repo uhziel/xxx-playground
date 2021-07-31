@@ -18,9 +18,11 @@ spec:
       containers:
         - name: app
           image: grafana/tns-app:latest
+          command: # https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/
+            - "/bin/sh"
           args:
-            - "-log.level=debug"
-            - "http://db:8082"
+            - "-c"
+            - "/app -log.level=debug http://db:8082 > /var/log/tns-app.log"
           resources:
             limits:
               memory: "64Mi"
