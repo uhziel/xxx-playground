@@ -12,9 +12,9 @@ spec:
         app: promtail
     spec:
       volumes:
-        - name: app_data
+        - name: app-data
           persistentVolumeClaim:
-            claimName: app_data
+            claimName: app-data
       containers:
         - name: promtail
           image: grafana/promtail:1.6.1
@@ -24,4 +24,4 @@ spec:
               cpu: "250m"
           volumeMounts:
             - mountPath: /var/log
-              name: app_data
+              name: app-data

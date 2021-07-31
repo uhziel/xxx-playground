@@ -1,0 +1,16 @@
+# $ kubectl apply -f app-data-persistentvolume.yaml 
+# $ kubectl apply -f app-data-persistentvolumeclaim.yaml
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app-data
+spec:
+  capacity:
+    storage: 100Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  hostPath:
+    path: /mnt/grafana-fundamentals-k8s

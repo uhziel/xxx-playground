@@ -12,9 +12,9 @@ spec:
         app: app
     spec:
       volumes:
-        - name: app_data
+        - name: app-data
           persistentVolumeClaim:
-            claimName: app_data
+            claimName: app-data
       containers:
         - name: app
           image: grafana/tns-app:latest
@@ -25,5 +25,8 @@ spec:
             limits:
               memory: "64Mi"
               cpu: "250m"
+          volumeMounts:
+            - mountPath: /var/log
+              name: app-data
           ports:
             - containerPort: 80
