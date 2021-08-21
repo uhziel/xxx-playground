@@ -53,8 +53,8 @@ plugins:
       platform: unix64
       inconclusive: true
       inline-suppr: true
-    include_paths:
-      - cpp/
+      include_paths:
+        - cpp/
 
 exclude_patterns:
 - "config/"
