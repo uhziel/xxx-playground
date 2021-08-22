@@ -7,7 +7,7 @@
 
 echo "PATH: ${PATH}"
 
-while read -r oldrev newrev ref ; do
+while read -r oldrev newrev _ ; do
     # old revision is blank - branch creation
     if [ "$oldrev" = "0000000000000000000000000000000000000000" ] ||
          # new revision is blank - branch deletion
@@ -16,7 +16,7 @@ while read -r oldrev newrev ref ; do
         # create new or delete old branch
         continue;
     fi
-    echo git diff --no-color -U0 $oldrev $newrev
-    git diff --no-color -U0 $oldrev $newrev 2>&1
+    echo "git diff --no-color -U0 $oldrev $newrev"
+    git diff --no-color -U0 "$oldrev $newrev" 2>&1
 done
 exit 1;
