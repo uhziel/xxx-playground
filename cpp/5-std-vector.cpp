@@ -7,6 +7,5 @@ int main () {
     {
         IntVec.push_back(i);
     }
-    int i = 1 / 0;
     return 0;
 }
