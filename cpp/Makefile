@@ -1,7 +1,7 @@
 CC    = g++
 CFLAGS = -g
 
-all: 1-unsigned 3-size 4-sort
+all: 1-unsigned 3-size 4-sort 5-std-vector
 
 1-unsigned: 1-unsigned.cpp
 	$(CC) $(CFLAGS) 1-unsigned.cpp -o 1-unsigned
@@ -16,5 +16,8 @@ all: 1-unsigned 3-size 4-sort
 4-sort: 4-sort.cpp
 	$(CC) $(CFLAGS) 4-sort.cpp -o 4-sort
 
+5-std-vector: 5-std-vector.cpp
+	$(CC) $(CFLAGS) 5-std-vector.cpp -o 5-std-vector
+
 clean:
-	rm 1-unsigned 3-size 4-sort
+	rm -r 1-unsigned 3-size 4-sort 5-std-vector *.dSYM || true
