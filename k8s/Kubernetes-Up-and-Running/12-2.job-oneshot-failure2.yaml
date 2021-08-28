@@ -1,0 +1,42 @@
+# 如果 restartPolicy: Never，则 job 则会在 pod 失败时运行新的 pod 让 job 完成。
+
+# $ kubectl get pod -l job-name=oneshot -w # 不会停止运行，一直监控，在新一行打印状态的变化
+# NAME            READY   STATUS   RESTARTS   AGE
+# oneshot-g7frw   0/1     Error    0          39s
+# oneshot-vvlzv   0/1     Error    0          75s
+# oneshot-nwdqn   0/1     Pending   0          0s
+# oneshot-nwdqn   0/1     Pending   0          0s
+# oneshot-nwdqn   0/1     ContainerCreating   0          0s
+# oneshot-nwdqn   1/1     Running             0          8s
+# oneshot-nwdqn   0/1     Error               0          32s
+# oneshot-hqvbr   0/1     Pending             0          0s
+# oneshot-hqvbr   0/1     Pending             0          0s
+# oneshot-hqvbr   0/1     ContainerCreating   0          0s
+# oneshot-hqvbr   1/1     Running             0          5s
+
+# $ kubectl get pod -l job-name=oneshot # 只记录一刻的状态
+# NAME            READY   STATUS    RESTARTS   AGE
+# oneshot-g7frw   0/1     Error     0          2m6s
+# oneshot-hqvbr   1/1     Running   0          35s
+# oneshot-nwdqn   0/1     Error     0          87s
+# oneshot-vvlzv   0/1     Error     0          2m42s
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: oneshot
+spec:
+  template:
+    spec:
+      containers:
+      - name: kuard
+        image: gcr.io/kuar-demo/kuard-amd64:blue
+        imagePullPolicy: Always
+        command:
+          - "/kuard"
+        args:
+          - "--keygen-enable"
+          - "--keygen-exit-on-complete"
+          - "--keygen-exit-code=1"
+          - "--keygen-num-to-gen=4"
+      restartPolicy: Never

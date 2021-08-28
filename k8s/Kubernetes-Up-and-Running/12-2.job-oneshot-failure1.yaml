@@ -1,0 +1,34 @@
+# kuard 执行完后，一直失败，所以 COMPLETIONS 一直为 0/1，而它失败后会重启，所以 RESTARTS 大于 1
+# $ kubectl get all
+# NAME                READY   STATUS    RESTARTS   AGE
+# pod/oneshot-57z6s   1/1     Running   2          93s
+# NAME                COMPLETIONS   DURATION   AGE
+# job.batch/oneshot   0/1           93s        93s
+
+# pods 失败次数太多，会导致 pod 被销毁。我说怎么突然 pod/oneshot-57z6s 消失。
+# $ kubectl describe jobs.batch oneshot
+#  Type     Reason                Age    From            Message
+#  ----     ------                ----   ----            -------
+#  Normal   SuccessfulCreate      13m    job-controller  Created pod: oneshot-57z6s
+#  Normal   SuccessfulDelete      4m26s  job-controller  Deleted pod: oneshot-57z6s
+#  Warning  BackoffLimitExceeded  4m26s  job-controller  Job has reached the specified backoff limit
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: oneshot
+spec:
+  template:
+    spec:
+      containers:
+      - name: kuard
+        image: gcr.io/kuar-demo/kuard-amd64:blue
+        imagePullPolicy: Always
+        command:
+          - "/kuard"
+        args:
+          - "--keygen-enable"
+          - "--keygen-exit-on-complete"
+          - "--keygen-exit-code=1"
+          - "--keygen-num-to-gen=4"
+      restartPolicy: OnFailure
