@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: work-queue
+    component: queue
+    chapter: jobs
+  name: queue
+spec:
+  selector:
+    app: work-queue
+    component: queue
+  ports:
+  - port: 8080
+    targetPort: 8080

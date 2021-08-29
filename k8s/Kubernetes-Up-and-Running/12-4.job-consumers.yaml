@@ -1,0 +1,56 @@
+# 一次运行 2 个 pod，成功跑 4 个算 job 完成。
+
+# $ kubectl get pod -w
+# NAME             READY   STATUS      RESTARTS   AGE
+# parallel-b4k7p   0/1     Completed   0          2m46s
+# parallel-kr5nm   1/1     Running     0          62s
+# parallel-lrkq6   0/1     Completed   0          4m10s
+# parallel-vl66c   0/1     Completed   0          4m10s
+# parallel-kr5nm   0/1     Completed   0          83s
+
+# $ kubectl get jobs.batch -w
+# NAME       COMPLETIONS   DURATION   AGE
+# parallel   0/4           66s        66s
+# parallel   1/4           84s        84s
+# parallel   2/4           3m8s       3m8s
+# parallel   3/4           3m47s      3m47s
+# parallel   4/4           4m31s      4m31s
+
+# $ kubectl get all
+# NAME                 READY   STATUS      RESTARTS   AGE
+# pod/parallel-b4k7p   0/1     Completed   0          6m36s
+# pod/parallel-kr5nm   0/1     Completed   0          4m52s
+# pod/parallel-lrkq6   0/1     Completed   0          8m
+# pod/parallel-vl66c   0/1     Completed   0          8m
+# NAME                 COMPLETIONS   DURATION   AGE
+# job.batch/parallel   4/4
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: consumers
+  labels:
+    app: work-queue
+    component: consumer
+    chapter: jobs
+spec:
+  parallelism: 2
+  template:
+    metadata:
+      labels:
+        app: work-queue
+        component: consumer
+        chapter: jobs
+    spec:
+      containers:
+        - name: worker
+          image: gcr.io/kuar-demo/kuard-amd64:blue
+          imagePullPolicy: Always
+          command:
+            - "/kuard"
+          args:
+            - "--keygen-enable"
+            - "--keygen-exit-on-complete"
+            - "--keygen-memq-server=http://queue:8080/memq/server"
+            - "--keygen-memq-queue=keygen"
+      restartPolicy: OnFailure
