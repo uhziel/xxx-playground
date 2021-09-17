@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 1-empty-dir
+  labels:
+    name: 1-empty-dir
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    volumeMounts:
+      - mountPath: /usr/share/nginx/html
+        name: code
+  initContainers:
+    - name: git-clone
+      image: alpine/git
+      args:
+        - clone
+        - https://gitee.com/uhziel/docker-alpine-git.git
+      volumeMounts:
+        - mountPath: /git
+          name: code
+  volumes:
+    - name: code
+      emptyDir:
+        {}
