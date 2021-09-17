@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 3-local
+  labels:
+    name: 3-local
+spec:
+  containers:
+  - name: 3-local
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+    volumeMounts:
+      - mountPath: /usr/share/nginx/html
+        name: log-dir
+        readOnly: true
+  volumes:
+    - name: log-dir
+      persistentVolumeClaim:
+        claimName: 3-local
+
+# 为 local 创建 sc，让 pvc 的绑定只发生在实际被使用时
+# $ kubectl apply -f 3-local-sc.yaml
+# storageclass.storage.k8s.io/local-ssd created
+# $ kubectl get sc
+# NAME        PROVISIONER                    RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+# local-ssd   kubernetes.io/no-provisioner   Delete          WaitForFirstConsumer   false                  8s
+
+# 查看下，此时 sc、pv 的属性符合预期
+# $ kubectl apply -f 3-local-pv.yaml
+# persistentvolume/3-local created
+# $ kubectl get sc,pv
+# NAME                                    PROVISIONER                    RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+# storageclass.storage.k8s.io/local-ssd   kubernetes.io/no-provisioner   Delete          WaitForFirstConsumer   false                  31s
+# NAME                           CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                 STORAGECLASS   REASON   AGE
+# persistentvolume/2-host-path   100Mi      RWO            Retain           Bound       default/2-host-path                           41m
+# persistentvolume/3-local       100Mi      RWO            Retain           Available                         local-ssd               4s
+
+# 符合预期，因为 WaitForFirstConsumer，所以 pvc 和 pv 还没绑定
+# $ kubectl apply -f 3-local-pvc.yaml
+# persistentvolumeclaim/3-local created
+# $ kubectl get sc,pv,pvc
+# NAME                                    PROVISIONER                    RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+# storageclass.storage.k8s.io/local-ssd   kubernetes.io/no-provisioner   Delete          WaitForFirstConsumer   false                  52s
+# NAME                           CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                 STORAGECLASS   REASON   AGE
+# persistentvolume/2-host-path   100Mi      RWO            Retain           Bound       default/2-host-path                           41m
+# persistentvolume/3-local       100Mi      RWO            Retain           Available                         local-ssd               25s
+# NAME                                STATUS    VOLUME        CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+# persistentvolumeclaim/2-host-path   Bound     2-host-path   100Mi      RWO                           42m
+# persistentvolumeclaim/3-local       Pending                                           local-ssd      3s
+
+# 添加 pod 来使用 pvc 后，触发绑定成功
+# $ kubectl apply -f 3-local-pod.yaml
+# pod/3-local created
+# $ kubectl get sc,pv,pvc
+# NAME                                    PROVISIONER                    RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+# storageclass.storage.k8s.io/local-ssd   kubernetes.io/no-provisioner   Delete          WaitForFirstConsumer   false                  7m14s
+# NAME                           CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                 STORAGECLASS   REASON   AGE
+# persistentvolume/2-host-path   100Mi      RWO            Retain           Bound    default/2-host-path                           47m
+# persistentvolume/3-local       100Mi      RWO            Retain           Bound    default/3-local       local-ssd               6m47s
+# NAME                                STATUS   VOLUME        CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+# persistentvolumeclaim/2-host-path   Bound    2-host-path   100Mi      RWO                           48m
+# persistentvolumeclaim/3-local       Bound    3-local       100Mi      RWO            local-ssd      6m25s
+
+# 实际 exec bash 进去，看到确实 mount 生效
+# $ kubectl exec -it 3-local -- bash
