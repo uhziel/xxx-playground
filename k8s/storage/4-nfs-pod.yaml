@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 4-nfs
+  labels:
+    name: 4-nfs
+spec:
+  containers:
+  - name: 4-nfs
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+    volumeMounts:
+      - mountPath: /usr/share/nginx/html
+        name: nfs4-home
+        readOnly: true
+  volumes:
+    - name: nfs4-home
+      persistentVolumeClaim:
+        claimName: 4-nfs
+
+# 创建了对应的 pv、pvc，目前看着一切正常
+# $ kubectl apply -f 4-nfs-pv.yaml
+# $ kubectl apply -f 4-nfs-pvc.yaml
+# $ kubectl get pv,pvc
+# $ kubectl get pv,pvc
+# NAME                           CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                 STORAGECLASS   REASON   AGE
+# persistentvolume/2-host-path   100Mi      RWO            Retain           Bound    default/2-host-path                           15h
+# persistentvolume/3-local       100Mi      RWO            Retain           Bound    default/3-local       local-ssd               14h
+# persistentvolume/4-nfs         100Mi      RWO            Retain           Bound    default/4-nfs                                 7m5s
+# NAME                                STATUS   VOLUME        CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+# persistentvolumeclaim/2-host-path   Bound    2-host-path   100Mi      RWO                           15h
+# persistentvolumeclaim/3-local       Bound    3-local       100Mi      RWO            local-ssd      14h
+# persistentvolumeclaim/4-nfs         Bound    4-nfs         100Mi      RWO                           6m54s
+
+# 创建 pod 让其用下 nfs pvc。果然出现问题，卡在 mount 上很长时间
+# $ kubectl get pods -w
+# NAME                 READY   STATUS              RESTARTS   AGE
+# 1-empty-dir          1/1     Running             0          16h
+# 2-host-path          1/1     Running             0          15h
+# 3-local              1/1     Running             0          14h
+# 4-nfs                0/1     ContainerCreating   0          43s
+
+# 看下失败原因，确实如此。看着应该是 rancher/rancher 里的 host 没有 /sbin/mount.nfs 导致的。
+# $ kubectl describe pod 4-nfs
+# Containers:
+#  4-nfs:
+#    State:          Waiting
+#      Reason:       ContainerCreating
+#    Ready:          False
+# Conditions:
+#  Type              Status
+#  Initialized       True
+#  Ready             False
+#  ContainersReady   False
+#  PodScheduled      True
+# Events:
+#  Type     Reason       Age                    From               Message
+#  ----     ------       ----                   ----               -------
+#  Normal   Scheduled    7m55s                  default-scheduler  Successfully assigned default/4-nfs to local-node
+#  Warning  FailedMount  3m39s                  kubelet            Unable to attach or mount volumes: unmounted volumes=[nfs4-home], unattached volumes=[kube-api-access-dlmhz nfs4-home]: timed out waiting for the condition
+#  Warning  FailedMount  103s (x11 over 7m55s)  kubelet            MountVolume.SetUp failed for volume "4-nfs" : mount failed: exit status 32
+# Mounting command: mount
+# Mounting arguments: -t nfs -o hard,nocto,vers=4.1 192.168.7.138:/srv/nfs4/homes /var/lib/kubelet/pods/d6358157-9b94-4b84-86a7-cc286fc9dce9/volumes/kubernetes.io~nfs/4-nfs
+# Output: mount: /var/lib/kubelet/pods/d6358157-9b94-4b84-86a7-cc286fc9dce9/volumes/kubernetes.io~nfs/4-nfs: bad option; for several filesystems (e.g. nfs, cifs) you might need a /sbin/mount.<type> helper program.
+#  Warning  FailedMount  83s (x2 over 5m53s)  kubelet  Unable to attach or mount volumes: unmounted volumes=[nfs4-home], unattached volumes=[nfs4-home kube-api-access-dlmhz]: timed out waiting for the condition
+
+# 我在努力寻找给 host 安装 nfs-common 的方法，但是根本没找到 host，所以也就无法安装了。
+
+# 尝试过使用 pod container 使用 uhziel/nginx-nfs(里面安装好了 nfs-common)，但是不好使，得在 host 上安装才行。
+
+# 最后，通过换公司运维给配的测试集群，一切正常。省了自己很多事。
