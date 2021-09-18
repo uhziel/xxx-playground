@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: 4-nfs-server
+spec:
+  storageClassName: "local-ssd"
+  resources:
+    requests:
+      storage: 100Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+
+# 因为 sc "local-ssd" 我还没创建，pv 和 pvc 立马绑定到一起了。

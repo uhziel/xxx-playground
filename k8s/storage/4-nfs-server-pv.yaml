@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: 4-nfs-server
+spec:
+  storageClassName: "local-ssd"
+  capacity:
+    storage: 100Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: /mnt
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: extra-role
+            operator: In
+            values:
+              - nfs-server
+
+# https://kubernetes.io/docs/concepts/storage/volumes/#local

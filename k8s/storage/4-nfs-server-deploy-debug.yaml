@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 4-nfs-server-debug
+spec:
+  selector:
+    matchLabels:
+      app: 4-nfs-server-debug
+  template:
+    metadata:
+      labels:
+        app: 4-nfs-server-debug
+    spec:
+      containers:
+        - name: 4-nfs-server-debug
+          image: nginx
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          volumeMounts:
+            - mountPath: /data
+              name: nfs-data
+      volumes:
+        - name: nfs-data
+          persistentVolumeClaim:
+            claimName: 4-nfs-server

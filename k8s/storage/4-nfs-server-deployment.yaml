@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 4-nfs-server
+spec:
+  selector:
+    matchLabels:
+      app: 4-nfs-server
+  template:
+    metadata:
+      labels:
+        app: 4-nfs-server
+    spec:
+      containers:
+        - name: 4-nfs-server
+          image: gists/nfs-server
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          securityContext:
+            privileged: true
+          env:
+            - name: NFS_DIR
+              value: /data
+            - name: NFS_DOMAIN
+              value: "*"
+            - name: NFS_OPTION
+              value: "rw,async,no_subtree_check"
+          ports:
+            - containerPort: 2049
+          volumeMounts:
+            - mountPath: /data
+              name: nfs-data
+              readOnly: true
+      volumes:
+        - name: nfs-data
+          persistentVolumeClaim:
+            claimName: 4-nfs-server
