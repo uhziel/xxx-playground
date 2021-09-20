@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: 1-use-provisioner-nosc
+spec:
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 100Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+
+# 显式的指定 storageClassName 为 ""，表示不使用任何 sc。而只是从静态的 pv 中寻找匹配。
+# → kubectl get pv,pvc
+# NAME                     STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+# 1-use-provisioner-nosc   Pending

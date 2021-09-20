@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: 1-use-provisioner
+spec:
+  resources:
+    requests:
+      storage: 100Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+
+# 没有提到 storageClassName 则使用 default sc 来动态生成 pv。
+# → kubectl get pv,pvc
+# NAME                                      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+# persistentvolumeclaim/1-use-provisioner   Bound    pvc-d0f19e56-59b1-4bc8-a5c7-3c53d9c408db   100Mi      RWO            standard       25s
+# NAME                                                        CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                               STORAGECLASS   REASON   AGE
+# persistentvolume/pvc-d0f19e56-59b1-4bc8-a5c7-3c53d9c408db   100Mi      RWO            Delete           Bound    default/1-use-provisioner           standard                24s
