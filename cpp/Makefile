@@ -1,7 +1,7 @@
 CC    = g++
 CFLAGS = -g
 
-all: 1-unsigned 3-size 4-sort 5-std-vector
+all: 1-unsigned 3-size 4-sort 5-std-vector 6-infinite-loop
 
 1-unsigned: 1-unsigned.cpp
 	$(CC) $(CFLAGS) 1-unsigned.cpp -o 1-unsigned
@@ -19,5 +19,10 @@ all: 1-unsigned 3-size 4-sort 5-std-vector
 5-std-vector: 5-std-vector.cpp
 	$(CC) $(CFLAGS) 5-std-vector.cpp -o 5-std-vector
 
+6-infinite-loop: 6-infinite-loop.cpp
+	$(CC) $(CFLAGS) 6-infinite-loop.cpp -o 6-infinite-loop
+
 clean:
-	rm -r 1-unsigned 3-size 4-sort 5-std-vector *.dSYM || true
+	rm -r 1-unsigned 3-size 4-sort 5-std-vector 6-infinite-loop *.dSYM || true
+
+
