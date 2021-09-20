@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-declarative-cfg
+spec:
+  selector:
+    matchLabels:
+      app: redis-declarative-cfg
+  template:
+    metadata:
+      labels:
+        app: redis-declarative-cfg
+    spec:
+      containers:
+        - name: redis-declarative-cfg
+          image: redis
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 6379
