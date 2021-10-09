@@ -1,3 +1,5 @@
+## image=tac/centos-compile-cppcheck:latest
+
 FROM centos:8
 
 RUN set -eux; \
