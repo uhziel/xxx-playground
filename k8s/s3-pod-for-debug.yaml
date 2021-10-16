@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s3-pod-for-debug
+spec:
+  containers:
+  - name: debian
+    image: debian:bullseye
+    command: ['/bin/sh']
+    args: ['-c', 'while true; do echo "wake up"; sleep 1; done']
