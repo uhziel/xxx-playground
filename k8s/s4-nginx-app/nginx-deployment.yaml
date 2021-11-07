@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 8
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              memory: "70Mi"
+              cpu: "100m"
+            limits:
+              memory: "170Mi"
+          ports:
+            - containerPort: 80
+      #nodeSelector:
+      #  kubernetes.io/hostname: rk3318-box
+
