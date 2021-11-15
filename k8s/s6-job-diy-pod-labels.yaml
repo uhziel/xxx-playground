@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: s6-job-diy-pod-labels
+spec:
+  parallelism: 1 # 默认就是1，可以省略
+  completions: 1 # 默认就是1，可以省略
+  template:
+    metadata:
+      labels:
+        foo: bar
+    spec:
+      containers:
+        - name: md5sum
+          image: busybox
+          command:
+            - sh
+            - -c
+            - "echo hello | md5sum"
+      restartPolicy: Never
+
+# 结论：可以自由在 podTemplate 上添加 labels。
+# https://v1-21.docs.kubernetes.io/docs/concepts/workloads/controllers/job/#specifying-your-own-pod-selector 只是说 job.spec.selector 不要自己手动填。
+# → kubectl get pvc,pv,all,codeanalysisjob,configmap --show-labels
+# NAME                                          COMPLETIONS   DURATION   AGE   LABELS
+# job.batch/s6-job-diy-pod-labels               1/1           23s        34s   controller-uid=79e01777-0ea2-4234-bdf4-88dcdf8e776f,foo=bar,job-name=s6-job-diy-pod-labels
+# NAME                                                                  READY   STATUS      RESTARTS   AGE   LABELS
+# pod/s6-job-diy-pod-labels-wpzt6                                       0/1     Completed   0          33s   controller-uid=79e01777-0ea2-4234-bdf4-88dcdf8e776f,foo=bar,job-name=s6-job-diy-pod-labels
+
+# 神奇的地方，在 podTemplate 额外添加的 labels，也会出现在 job 上
+# → kubectl describe job.batch/s6-job-diy-pod-labels
+# Name:           s6-job-diy-pod-labels
+# Namespace:      demo-codeanalysis
+# Selector:       controller-uid=79e01777-0ea2-4234-bdf4-88dcdf8e776f
+# Labels:         controller-uid=79e01777-0ea2-4234-bdf4-88dcdf8e776f
+#                 foo=bar
+#                 job-name=s6-job-diy-pod-labels
+
+# 正常生成了结果
+# → kubectl logs pod/s6-job-diy-pod-labels-wpzt6
+# b1946ac92492d2347c6235b4d2611184  -
