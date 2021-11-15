@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: s5-job-demo
+spec:
+  parallelism: 1 # 默认就是1，可以省略
+  completions: 1 # 默认就是1，可以省略
+  template:
+    spec:
+      containers:
+        - name: md5sum
+          image: busybox
+          command:
+            - sh
+            - -c
+            - "echo hello | md5sum"
+      restartPolicy: Never
+
+# 标签都是 k8s 自动生成的，我上面并没有指定
+# → kubectl get pvc,pv,all,codeanalysisjob,configmap --show-labels
+# NAME                                          COMPLETIONS   DURATION   AGE   LABELS
+# job.batch/s5-job-demo                         1/1           23s        25s   controller-uid=5669ec78-6ae3-488e-a8ce-32732677e604,job-name=s5-job-demo
+# NAME                                                                  READY   STATUS      RESTARTS   AGE   LABELS
+# pod/s5-job-demo-dbp8z                                                 0/1     Completed   0          25s   controller-uid=5669ec78-6ae3-488e-a8ce-32732677e604,job-name=s5-job-demo
+
+# pod 的名字是只指定 generateName 而没 name 生成的。selector 只针对 controller-uid
+# → kubectl get job.batch/s5-job-demo -o yaml
+#  selector:
+#    matchLabels:
+#      controller-uid: 5669ec78-6ae3-488e-a8ce-32732677e604
+#  template:
+#    metadata:
+#      labels:
+#        controller-uid: 5669ec78-6ae3-488e-a8ce-32732677e604
+#        job-name: s5-job-demo
+# → kubectl get pod/s5-job-demo-dbp8z -o yaml
+#metadata:
+#  generateName: s5-job-demo-
+#  labels:
+#    controller-uid: 5669ec78-6ae3-488e-a8ce-32732677e604
+#    job-name: s5-job-demo
+#  name: s5-job-demo-dbp8z
+
+# 正常生成了结果
+# → kubectl logs s5-job-demo-dbp8z
+# b1946ac92492d2347c6235b4d2611184  -
+# → echo hello | md5sum
+# b1946ac92492d2347c6235b4d2611184  -
