@@ -1,0 +1,183 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels: {component: node-problem-detector}
+  name: node-problem-detector
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels: {component: node-problem-detector}
+  name: node-problem-detector
+rules:
+- apiGroups: ['']
+  resources: [events]
+  verbs: [create, patch, update]
+- apiGroups: ['']
+  resources: [nodes]
+  verbs: [get, watch, list, update]
+- apiGroups: ['']
+  resources: [nodes/status]
+  verbs: [patch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels: {component: node-problem-detector}
+  name: node-problem-detector
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: ClusterRole, name: node-problem-detector}
+subjects:
+- {kind: ServiceAccount, name: node-problem-detector, namespace: kube-system}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels: {component: node-problem-detector}
+  name: node-problem-detector-config
+  namespace: kube-system
+data:
+  kernel-monitor.json: |
+    {
+        "plugin": "kmsg",
+        "logPath": "/dev/kmsg",
+        "lookback": "5m",
+        "bufferSize": 10,
+        "source": "kernel-monitor",
+        "conditions": [
+            {
+                "type": "KernelDeadlock",
+                "reason": "KernelHasNoDeadlock",
+                "message": "kernel has no deadlock"
+            },
+            {
+                "type": "NFSError",
+                "reason": "NFSHasNoError",
+                "message": "NFS has no error"
+            }
+        ],
+        "rules": [
+            {
+                "type": "temporary",
+                "reason": "OOMKilling",
+                "pattern": "Kill process \\d+ (.+) score \\d+ or sacrifice child\\nKilled process \\d+ (.+) total-vm:\\d+kB, anon-rss:\\d+kB, file-rss:\\d+kB.*"
+            },
+            {
+                "type": "temporary",
+                "reason": "TaskHung",
+                "pattern": "task \\S+:\\w+ blocked for more than \\w+ seconds\\."
+            },
+            {
+                "type": "temporary",
+                "reason": "UnregisterNetDevice",
+                "pattern": "unregister_netdevice: waiting for \\w+ to become free. Usage count = \\d+"
+            },
+            {
+                "type": "temporary",
+                "reason": "KernelOops",
+                "pattern": "BUG: unable to handle kernel NULL pointer dereference at .*"
+            },
+            {
+                "type": "temporary",
+                "reason": "KernelOops",
+                "pattern": "divide error: 0000 \\[#\\d+\\] SMP"
+            },
+            {
+                "type": "temporary",
+                "reason": "MemoryReadError",
+                "pattern": "CE memory read error .*"
+            },
+            {
+                "type": "permanent",
+                "condition": "KernelDeadlock",
+                "reason": "DockerHung",
+                "pattern": "task docker:\\w+ blocked for more than \\w+ seconds\\."
+            },
+            {
+                "type": "permanent",
+                "condition": "NFSError",
+                "reason": "ResetSessionFailed",
+                "pattern": "NFS: state manager: reset session failed on NFSv4 server [.0-9]+ with error \\w+"
+            }
+        ]
+    }
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels: {component: node-problem-detector}
+  name: node-problem-detector
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      component: node-problem-detector
+  template:
+    metadata:
+      labels:
+        component: node-problem-detector
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: node-problem-detector
+        command:
+        - /node-problem-detector
+        - --logtostderr
+        - --config.system-log-monitor=/config/kernel-monitor.json
+        image: registry.h3d.com.cn/tac/node-problem-detector:v0.8.10
+        resources:
+          limits:
+            cpu: 10m
+            memory: 80Mi
+          requests:
+            cpu: 10m
+            memory: 80Mi
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        volumeMounts:
+        - name: log
+          mountPath: /var/log
+          readOnly: true
+        - name: kmsg
+          mountPath: /dev/kmsg
+          readOnly: true
+        # Make sure node problem detector is in the same timezone
+        # with the host.
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: config
+          mountPath: /config
+          readOnly: true
+      volumes:
+      - name: log
+        # Config `log` to your system log directory
+        hostPath:
+          path: /var/log/
+      - name: kmsg
+        hostPath:
+          path: /dev/kmsg
+      - name: localtime
+        hostPath:
+          path: /etc/localtime
+      - name: config
+        configMap:
+          name: node-problem-detector-config
+          items:
+          - key: kernel-monitor.json
+            path: kernel-monitor.json
+      serviceAccountName: node-problem-detector
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists
+
