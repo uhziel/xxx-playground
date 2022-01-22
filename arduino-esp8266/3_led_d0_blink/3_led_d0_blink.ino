@@ -1,12 +1,14 @@
 void setup() {
+  Serial.begin(115200);
   // Set the LED pin D0 into the correct mode (OUTPUT)
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(22, OUTPUT);
 }
 
 void loop() {
   // lets blink!
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(22, HIGH);
   delay(2000);
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(22, LOW);
+  Serial.println("hello");
   delay(1000);  
 }
