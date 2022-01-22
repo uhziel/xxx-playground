@@ -1,0 +1,47 @@
+esphome:
+  name: mcu2
+  platform: ESP8266
+  board: nodemcuv2
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+wifi:
+  ssid: "www_zl"
+  password: "1234567890"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Mcu1 Fallback Hotspot"
+    password: "NEQI3LTfMlpj"
+
+captive_portal:
+
+light:
+  - platform: status_led
+    name: "Onboard LED"
+    pin:
+      number: 2
+      inverted: true
+ 
+sensor:
+  - platform: wifi_signal
+    name: "ESP WiFi Signal"
+    update_interval: 30s # defaults to 60s
+  - platform: uptime
+    name: "ESP Uptime"
+    update_interval: 30s # defaults to 60s
+  - platform: dht
+    pin: D6
+    temperature:
+      name: temperature
+    humidity:
+      name: humidity
+    update_interval: 10s
