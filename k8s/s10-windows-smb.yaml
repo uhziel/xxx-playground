@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: smb-secret
+data:
+  password: emw1MzUxODM1NDk=
+  username: SllEUVc2UzgyTVdaVDA5XHpodWxlaQ==
+type: microsoft.com/smb.cmd
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s10-windows-smb
+spec:
+  nodeSelector:
+    kubernetes.io/os: windows
+  restartPolicy: Never
+  containers:
+  - name: smb
+    image: mcr.microsoft.com/windows/nanoserver:1809
+    command: ["C:\\Windows\\System32\\cmd.exe"]
+    args: ["/C", "echo", "0", ">", "c:\\d\\smb_test.txt"]
+    volumeMounts:
+    - name: smb-volume
+      mountPath: /d
+  volumes:
+  - name: smb-volume
+    flexVolume:
+      driver: "microsoft.com/smb.cmd"
+      secretRef:
+        name: "smb-secret"
+      options:
+        # source can be in any of the following formats
+        # \\servername\share\path  (\'s will need to be escaped)
+        # smb://servername/share/path
+        # //servername/share/path
+        # source: "\\\\Server\\Share\\optional\\sub\\path"
+        source: "smb://192.168.5.246/e/svn_repo_trunk"
