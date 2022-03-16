@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s8-windows-pod-demo-command-args
+spec:
+  containers:
+  - name: echo
+    image: mcr.microsoft.com/windows/nanoserver:1809
+    command: ["cmd.exe"]
+    args: ["/s", "/c", "echo hello, windows containers"]
+  nodeSelector:
+    kubernetes.io/os: windows

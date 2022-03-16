@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-normal-priority
+spec:
+  parallelism: 1 # 默认就是1，可以省略
+  completions: 1 # 默认就是1，可以省略
+  template:
+    spec:
+      containers:
+        - name: calc
+          image: busybox
+          command:
+            - sh
+            - -c
+            - 'while true; do echo "normal-priority: wake up"; sleep 1; done'
+          resources:
+            limits:
+              cpu: "3"
+      restartPolicy: Never
