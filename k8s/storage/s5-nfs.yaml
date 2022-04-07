@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s5-nfs
+  labels:
+    name: s5-nfs
+spec:
+  nodeName: 192.168.7.189
+  containers:
+  - name: cppcheck
+    image: registry.h3d.com.cn/tac/codeanalysis-cppcheck:0.2.0-2.3-h3d4-r4
+    command:
+      - /bin/bash
+    args: ['-c', 'while true; do echo "wake up"; sleep 1; done']
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    volumeMounts:
+      - mountPath: /code
+        name: code
+  initContainers:
+    - name: git-clone
+      image: alpine/git
+      args:
+        - clone
+        - https://gitlab.h3d.com.cn/x51/engine.git
+        - /code/x51engine
+      volumeMounts:
+        - mountPath: /code
+          name: code
+  volumes:
+    - name: code
+      nfs:
+        path: /home/zhulei/test-casefold/casefold_dir
+        server: 192.168.7.138
