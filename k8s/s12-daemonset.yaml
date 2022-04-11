@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: distccd-ds
+spec:
+  selector:
+    matchLabels:
+      app: distccd
+  template:
+    metadata:
+      labels:
+        app: distccd
+    spec:
+      containers:
+      - name: distccd
+        image: uhziel/distccd
+        ports:
+        - containerPort: 3632
+          protocol: TCP
+          name: distccd
+          hostPort: 8001
+        - containerPort: 3633
+          protocol: TCP
+          name: stats
+          hostPort: 8002
