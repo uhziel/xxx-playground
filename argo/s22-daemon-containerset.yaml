@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: daemon-containerset-
+spec:
+  entrypoint: main
+  templates:
+  - name: main
+    steps:
+    - - name: redis
+        template: redis
+
+    - - name: redis-cli
+        template: redis-cli
+        arguments:
+          parameters:
+          - name: cmd
+            value: redis-cli -h {{steps.redis.ip}} PING
+
+  - name: redis
+    daemon: true
+    retryStrategy:
+      limit: 10
+    containerSet:
+      containers:
+      - name: main
+        image: registry.h3d.com.cn/tac/redis:6.2.6
+      - name: work-queue-cleaner
+        image: registry.h3d.com.cn/tac/codeanalysis-util-work-queue-cleaner:0.2.0
+
+  - name: redis-cli
+    inputs:
+      parameters:
+      - name: cmd
+    container:
+      image: registry.h3d.com.cn/tac/redis:6.2.6
+      command: ["/bin/sh", "-c"]
+      args: ["{{inputs.parameters.cmd}}"]
