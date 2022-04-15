@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: s13-default-env
+spec:
+  template:
+    spec:
+      containers:
+      - name: s13-default-env
+        image: uhziel/s13-default-env
+        command:
+        - printenv
+        args:
+        - FOO
+        env:
+        - name: FOO
+          value: bar2
+      restartPolicy: Never

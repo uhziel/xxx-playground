@@ -43,3 +43,6 @@ luac.out
 .Rhistory
 
 prometheus/data
+
+# mkdocs
+site/

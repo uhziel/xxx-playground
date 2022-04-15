@@ -1,0 +1,5 @@
+# docker build -f s13-Dockerfile -t uhziel/s13-default-env .
+# docker push uhziel/s13-default-env
+FROM busybox
+
+ENV FOO=bar
