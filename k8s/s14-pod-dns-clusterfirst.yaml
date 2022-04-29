@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s14-pod-dns-clusterfirst
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ["sleep", "1d"]
+  dnsPolicy: 'ClusterFirst'

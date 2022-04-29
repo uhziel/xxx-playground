@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s14-pod-dnsconfig-clusterfirst
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ["sleep", "1d"]
+  dnsPolicy: 'ClusterFirst'
+  dnsConfig:
+    nameservers: ["8.8.8.8", "10.43.0.10"]
+    searches: ["zhulei", "org.zhulei"]
+    options:
+      - name: ndots
+        value: "2"
