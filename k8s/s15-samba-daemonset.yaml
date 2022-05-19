@@ -23,7 +23,7 @@ spec:
         - -u
         - zhulei;123456;1000;smb;0
         - -s
-        - public;/public
+        - public;/public;yes;no;yes
         env:
         - name: TZ
           value: Asia/Shanghai
