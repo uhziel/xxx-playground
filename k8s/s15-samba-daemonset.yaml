@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: samba
+spec:
+  selector:
+    matchLabels:
+      app: samba
+  template:
+    metadata:
+      labels:
+        app: samba
+    spec:
+      volumes:
+      - name: public
+        hostPath:
+          path: '/tmp/hostpath-provisioner'
+      containers:
+      - name: samba
+        image: dperson/samba
+        args:
+        - -p
+        - -u
+        - zhulei;123456;1000;smb;0
+        - -s
+        - public;/public
+        env:
+        - name: TZ
+          value: Asia/Shanghai
+        - name: USERID
+          value: "0"
+        - name: GROUPID
+          value: "0"
+        ports:
+        - containerPort: 139
+          hostPort: 139
+        - containerPort: 445
+          hostPort: 445
+        volumeMounts:
+        - name: public
+          mountPath: /public
+
