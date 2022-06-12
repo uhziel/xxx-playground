@@ -1,0 +1,15 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: nginx
+  namespace: kube-system
+spec:
+  chart: nginx
+  repo: https://charts.bitnami.com/bitnami
+  targetNamespace: default
+  set:
+    replicaCount: 2
+  valuesContent: |-
+    image:
+      tag: 1.22.0-debian-11-r0
+
