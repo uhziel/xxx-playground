@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s19-nfs-ganesha
+spec:
+  selector:
+    matchLabels:
+      app: s19-nfs-ganesha
+  template:
+    metadata:
+      labels:
+        app: s19-nfs-ganesha
+    spec:
+      volumes:
+        - name: exports
+          hostPath:
+            path: /tmp/hostpath-provisioner
+      containers:
+        - name: nfs
+          image: uhziel/nfs-ganesha
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          securityContext:
+            capabilities:
+              add:
+                - DAC_READ_SEARCH
+                - SYS_RESOURCE
+          ports:
+            - containerPort: 2049
+            - containerPort: 111
+          env:
+            - name: LOG_COMPONENT
+              value: FSAL=FULL_DEBUG;CONFIG=INFO;
+          volumeMounts:
+            - name: exports
+              mountPath: /exports
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: s19-nfs-ganesha
+spec:
+  type: ClusterIP
+  selector:
+    app: s19-nfs-ganesha
+  ports:
+    - name: nfs
+      port: 2049
+    - name: nfs-udp
+      port: 2049
+      protocol: UDP
+    - name: nlockmgr
+      port: 32803
+    - name: nlockmgr-udp
+      port: 32803
+      protocol: UDP
+    - name: mountd
+      port: 20048
+    - name: mountd-udp
+      port: 20048
+      protocol: UDP
+    - name: rquotad
+      port: 875
+    - name: rquotad-udp
+      port: 875
+      protocol: UDP
+    - name: rpcbind
+      port: 111
+    - name: rpcbind-udp
+      port: 111
+      protocol: UDP
