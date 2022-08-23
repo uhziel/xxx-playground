@@ -13,8 +13,8 @@ spec:
     spec:
       volumes:
         - name: exports
-          hostPath:
-            path: /tmp/hostpath-provisioner
+          persistentVolumeClaim:
+            claimName: exports
       containers:
         - name: nfs
           image: uhziel/nfs-ganesha
@@ -71,3 +71,14 @@ spec:
     - name: rpcbind-udp
       port: 111
       protocol: UDP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: exports
+spec:
+  accessModes:
+  - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: 1Gi
