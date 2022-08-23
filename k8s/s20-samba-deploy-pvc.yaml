@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s20-samba-deploy-pvc
+spec:
+  selector:
+    matchLabels:
+      app: s20-samba-deploy-pvc
+  template:
+    metadata:
+      labels:
+        app: s20-samba-deploy-pvc
+    spec:
+      volumes:
+        - name: exports
+          persistentVolumeClaim:
+            claimName: exports
+      containers:
+        - name: samba
+          image: registry.h3d.com.cn/tac/dperson/samba
+          args:
+            - -p
+            - -u
+            - hardcore;111111;1000;smb;0
+            - -s
+            - public;/public;yes;no;yes
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+            - name: USERID
+              value: "0"
+            - name: GROUPID
+              value: "0"
+          ports:
+            - containerPort: 139
+            - containerPort: 445
+          volumeMounts:
+            - name: exports
+              mountPath: /exports
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: s20-samba-deploy-pvc
+spec:
+  type: ClusterIP
+  selector:
+    app: s20-samba-deploy-pvc
+  ports:
+    - name: svc1
+      port: 139
+    - name: svc2
+      port: 445
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: exports
+spec:
+  accessModes:
+  - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: 1Gi
