@@ -1,0 +1,13 @@
+- name: Set nfs4_unique_id
+  hosts: codecc
+  tasks:
+  - name: Install uuid
+    ansible.builtin.dnf:
+      name: uuid
+      state: present
+  - name: Set nfs4_unique_id to uuid
+    ansible.builtin.shell: |-
+      echo options nfs nfs4_unique_id=$(uuid) > /etc/modprobe.d/nfsclient.conf
+      reboot
+    args:
+      creates: /etc/modprobe.d/nfsclient.conf
