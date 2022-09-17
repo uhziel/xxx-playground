@@ -1,12 +1,6 @@
 - name: Set nfs4_unique_id
   hosts: codecc
   tasks:
-  - name: Fix centos8 dnf
-    ansible.builtin.shell: |-
-      if ! grep -r '#mirrorlist' /etc/yum.repos.d > /dev/null; then
-        sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-        sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
-      fi
   - name: Install uuid
     ansible.builtin.dnf:
       name: uuid
