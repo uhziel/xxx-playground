@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s22-deployment-strategy-recreate
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: s22-deployment-strategy-recreate
+  template:
+    metadata:
+      labels:
+        app: s22-deployment-strategy-recreate
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:1.28
+        command:
+        - sh
+        args:
+        - -c
+        - sleep 1d
