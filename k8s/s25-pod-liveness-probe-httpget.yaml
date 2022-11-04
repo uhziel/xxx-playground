@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s25-pod-liveness-probe-httpget
+spec:
+  containers:
+    - name: busybox
+      image: busybox:1.28
+      command: ["sleep", "1d"]
+      livenessProbe: # 不支持修改
+        httpGet:
+          host: www.baidu.com
+          httpHeaders:
+          - name: foo
+            value: bar
+          path: /
+          port: 80
+          scheme: HTTP
+        initialDelaySeconds: 3
+        periodSeconds: 2
+        timeoutSeconds: 2
+        successThreshold: 1
+        failureThreshold: 4
