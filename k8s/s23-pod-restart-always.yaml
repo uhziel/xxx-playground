@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s23-pod-restart-always
+spec:
+  restartPolicy: Always
+  containers:
+  - name: busybox
+    image: busybox:1.28
+    command:
+    - "true"
