@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s24-pod-sh-graceful-shutdown
+spec:
+  containers:
+    - name: busybox
+      image: busybox:1.28
+      command: ["sh", "-c"]
+      args:
+      - |
+        _term() {
+          echo 'caught SIGTERM'
+          kill -TERM "$child"
+        }
+
+        trap _term TERM
+        trap
+
+        sleep 1d &
+
+        child=$!
+        wait $child
