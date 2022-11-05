@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: s22-deployment-strategy-recreate
 spec:
+  replicas: 3
   strategy:
     type: Recreate
   selector:
