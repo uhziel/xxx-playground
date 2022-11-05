@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s22-deployment-strategy-rollingupdate
+spec:
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: s22-deployment-strategy-rollingupdate
+  template:
+    metadata:
+      labels:
+        app: s22-deployment-strategy-rollingupdate
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:1.28
+        command:
+        - sh
+        args:
+        - -c
+        - sleep 1d
