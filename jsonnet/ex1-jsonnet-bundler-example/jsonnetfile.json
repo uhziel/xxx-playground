@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/anguslees/kustomize-libsonnet.git",
+          "subdir": ""
+        }
+      },
+      "version": "master"
+    }
+  ],
+  "legacyImports": true
+}
