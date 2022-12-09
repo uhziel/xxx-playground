@@ -46,3 +46,5 @@ prometheus/data
 
 # mkdocs
 site/
+
+jsonnet/*/vendor
