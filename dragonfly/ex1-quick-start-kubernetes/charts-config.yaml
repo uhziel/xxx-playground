@@ -1,0 +1,37 @@
+containerRuntime:
+  containerd:
+    enable: true
+
+scheduler:
+  replicas: 1
+  metrics:
+    enable: true
+  config:
+    verbose: true
+    pprofPort: 18066
+
+seedPeer:
+  replicas: 1
+  metrics:
+    enable: true
+  config:
+    verbose: true
+    pprofPort: 18066
+
+dfdaemon:
+  config:
+    verbose: true
+    pprofPort: 18066
+    # ":" is necessary for metrics value
+    metrics: :8000
+
+manager:
+  replicas: 1
+  metrics:
+    enable: true
+  config:
+    verbose: true
+    pprofPort: 18066
+
+jaeger:
+  enable: true
