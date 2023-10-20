@@ -1,0 +1,157 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: minecraft
+  name: minecraft
+spec:
+  selector:
+    matchLabels:
+      app: minecraft
+  serviceName: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      containers:
+      - env:
+        - name: EULA
+          value: "TRUE"
+        - name: TYPE
+          value: PAPER # VANILLA
+        - name: MODRINTH_PROJECTS
+          value: "tabtps"
+        - name: VERSION
+          value: 1.12.2
+        - name: DIFFICULTY
+          value: easy
+        - name: WHITELIST
+        - name: OPS
+        - name: ICON
+        - name: MAX_PLAYERS
+          value: "20"
+        - name: MAX_WORLD_SIZE
+          value: "10000"
+        - name: ALLOW_NETHER
+          value: "true"
+        - name: ANNOUNCE_PLAYER_ACHIEVEMENTS
+          value: "true"
+        - name: ENABLE_COMMAND_BLOCK
+          value: "true"
+        - name: FORCE_GAMEMODE
+          value: "false"
+        - name: GENERATE_STRUCTURES
+          value: "true"
+        - name: HARDCORE
+          value: "false"
+        - name: MAX_BUILD_HEIGHT
+          value: "256"
+        - name: MAX_TICK_TIME
+          value: "60000"
+        - name: SPAWN_ANIMALS
+          value: "true"
+        - name: SPAWN_MONSTERS
+          value: "true"
+        - name: SPAWN_NPCS
+          value: "true"
+        - name: SPAWN_PROTECTION
+          value: "16"
+        - name: VIEW_DISTANCE
+          value: "10"
+        - name: SEED
+        - name: MODE
+          value: survival
+        - name: MOTD
+          value: Welcome to Minecraft on Kubernetes!
+        - name: PVP
+          value: "false"
+        - name: LEVEL_TYPE
+          value: DEFAULT
+        - name: GENERATOR_SETTINGS
+        - name: LEVEL
+          value: world
+        - name: ONLINE_MODE
+          value: "true"
+        - name: MEMORY
+          value: 1024M
+        - name: JVM_OPTS
+        - name: JVM_XX_OPTS
+        - name: OVERRIDE_SERVER_PROPERTIES
+          value: "false"
+        - name: ENABLE_RCON
+          value: "false"
+        image: itzg/minecraft-server:java8-multiarch
+        imagePullPolicy: Always
+        livenessProbe:
+          exec:
+            command:
+            - mc-health
+          failureThreshold: 20
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: minecraft
+        ports:
+        - containerPort: 25565
+          name: minecraft
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - mc-health
+          failureThreshold: 20
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+        stdin: true
+        volumeMounts:
+        - mountPath: /data
+          name: datadir
+        - mountPath: /backups
+          name: backupdir
+          readOnly: true
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+      volumes:
+      - name: datadir
+        persistentVolumeClaim:
+          claimName: minecraft-datadir
+      - emptyDir: {}
+        name: backupdir
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: minecraft
+  name: minecraft
+spec:
+  ports:
+  - name: minecraft
+    port: 25565
+    protocol: TCP
+    targetPort: minecraft
+  selector:
+    app: minecraft
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: minecraft
+  name: minecraft-datadir
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
