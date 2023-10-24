@@ -134,6 +134,8 @@ metadata:
   labels:
     app: minecraft
   name: minecraft
+  annotations:
+    "mc-router.itzg.me/externalServerName": "mc.ws.570499536.xyz"
 spec:
   ports:
   - name: minecraft
