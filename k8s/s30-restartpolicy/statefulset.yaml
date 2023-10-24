@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: statefulset
+spec:
+  selector:
+    matchLabels:
+      app: statefulset
+  template:
+    metadata:
+      labels:
+        app: statefulset
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: busybox
+        image: busybox
+        command:
+        - sleep
+        args:
+        - infinity
+# The StatefulSet "statefulset" is invalid: spec.template.spec.restartPolicy: Unsupported value: "OnFailure": supported values: "Always"

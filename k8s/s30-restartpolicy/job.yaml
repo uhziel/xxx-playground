@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+ name: job
+spec:
+ template:
+   spec:
+     restartPolicy: Always
+     containers:
+       - name: md5sum
+         image: busybox
+         command:
+           - sh
+           - -c
+           - "echo hello | md5sum"
+# The Job "job" is invalid: spec.template.spec.restartPolicy: Required value: valid values: "OnFailure", "Never"

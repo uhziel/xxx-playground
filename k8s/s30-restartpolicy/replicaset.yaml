@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replicaset
+spec:
+  selector:
+    matchLabels:
+      app: replicaset
+  template:
+    metadata:
+      labels:
+        app: replicaset
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: busybox
+        image: busybox
+        command:
+        - sleep
+        args:
+        - infinity
+# The ReplicaSet "replicaset" is invalid: spec.template.spec.restartPolicy: Unsupported value: "OnFailure": supported values: "Always"

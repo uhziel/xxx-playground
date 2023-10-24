@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset
+spec:
+  selector:
+    matchLabels:
+      app: daemonset
+  template:
+    metadata:
+      labels:
+        app: daemonset
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: busybox
+        image: busybox
+        command:
+        - sleep
+        args:
+        - infinity
+# The DaemonSet "daemonset" is invalid: spec.template.spec.restartPolicy: Unsupported value: "OnFailure": supported values: "Always"
