@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: statefulset
+spec:
+  selector:
+    matchLabels:
+      app: statefulset
+  template:
+    metadata:
+      labels:
+        app: statefulset
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command:
+        - sleep
+        args:
+        - infinity
