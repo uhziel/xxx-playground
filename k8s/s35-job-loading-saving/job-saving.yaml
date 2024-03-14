@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: saving
+spec:
+  template:
+    spec:
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: conf
+          configMap:
+            name: conf
+      initContainers:
+        - name: fill-data
+          image: busybox:stable
+          command:
+            - "/bin/sh"
+          args:
+            - "-c"
+            - "echo bar > /data/foo.txt && exit 0 || exit 1"
+          volumeMounts:
+            - name: data
+              mountPath: "/data"
+      containers:
+        - name: rclone
+          image: rclone/rclone:1.66
+          args:
+            - sync
+            - '/data'
+            - "nas:game-123456"
+          volumeMounts:
+            - name: data
+              mountPath: "/data"
+            - name: conf
+              mountPath: "/config/rclone"
+      restartPolicy: Never

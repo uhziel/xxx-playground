@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: loading
+spec:
+  template:
+    spec:
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: conf
+          configMap:
+            name: conf
+      initContainers:
+        - name: loading
+          image: rclone/rclone:1.66
+          args:
+            - sync
+            - "nas:game-123456"
+            - '/data'
+          volumeMounts:
+            - name: data
+              mountPath: "/data"
+            - name: conf
+              mountPath: "/config/rclone"
+      containers:
+        - name: print
+          image: busybox:stable
+          command:
+            - "/bin/sh"
+          args:
+            - "-c"
+            - "cat /data/foo.txt"
+          volumeMounts:
+            - name: data
+              mountPath: "/data"
+      restartPolicy: Never
