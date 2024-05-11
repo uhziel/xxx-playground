@@ -1,5 +1,3 @@
-#!/usr/bin/env ts-node-script
-
 interface Animal {
   name(): string;
 }
