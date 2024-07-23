@@ -23,13 +23,17 @@ spec:
       preconditions:
         all:
         - key: "{{ request.operation || 'BACKGROUND' }}"
-          operator: NotEquals
-          value: DELETE
+          operator: AnyIn
+          value:
+            - CREATE
+            - UPDATE
+          #operator: NotEquals
+          #value: DELETE
       context:
         - name: allinstances
           apiCall:
             urlPath: "apis/game.570499536.xyz/v1alpha1/servers"
-            jmesPath: "items[].metadata.labels.\"app.kubernetes.io/instance\""
+            jmesPath: "items[?[metadata.namespace, metadata.name] != ['{{request.object.metadata.namespace}}', '{{request.object.metadata.name}}']].metadata.labels.\"app.kubernetes.io/instance\""
       validate:
         message: "app instance name 在整个集群内不能重复."
         deny:
