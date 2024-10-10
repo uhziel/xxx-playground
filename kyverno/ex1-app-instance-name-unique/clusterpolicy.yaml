@@ -1,0 +1,44 @@
+# https://kyverno.io/policies/other/require-unique-external-dns/require-unique-external-dns/
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: app-instance-name-unique
+  annotations:
+    policies.kyverno.io/title: Unique App Instance Name
+    kyverno.io/kyverno-version: 1.12.0
+    policies.kyverno.io/minversion: 1.12.0
+    kyverno.io/kubernetes-version: "1.28"
+    policies.kyverno.io/description: >-
+      保证 app instance name 在整个集群内不会出现重复。
+spec:
+  validationFailureAction: Enforce
+  background: false
+  rules:
+    - name: unique-name
+      match:
+        any:
+        - resources:
+            kinds:
+              - Server
+      preconditions:
+        all:
+        - key: "{{ request.operation || 'BACKGROUND' }}"
+          operator: AnyIn
+          value:
+            - CREATE
+            - UPDATE
+          #operator: NotEquals
+          #value: DELETE
+      context:
+        - name: allinstances
+          apiCall:
+            urlPath: "apis/game.570499536.xyz/v1alpha1/servers"
+            jmesPath: "items[?[metadata.namespace, metadata.name] != ['{{request.object.metadata.namespace}}', '{{request.object.metadata.name}}']].metadata.labels.\"app.kubernetes.io/instance\""
+      validate:
+        message: "app instance name 在整个集群内不能重复."
+        deny:
+          conditions:
+            all:
+            - key: "{{ request.object.metadata.labels.\"app.kubernetes.io/instance\" }}"
+              operator: AnyIn
+              value: "{{ allinstances }}"
