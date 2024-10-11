@@ -4,7 +4,7 @@ FROM buildpack-deps:bullseye as build
 RUN set -eux; \
   sed -i~ 's/http:\/\/\w*\.debian\.org/http:\/\/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list; \
   apt-get update; \
-  apt-get install -y --no-install-recommends \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     cmake \
   ; \
   rm -rf /var/lib/apt/lists/*;
@@ -21,6 +21,7 @@ FROM debian:bullseye
 
 LABEL description="生成cppcheck镜像。"
 LABEL project="https://github.com/uhziel/docker-cppcheck"
+LABEL maintainer="uhziel <uhziel@gmail.com>"
 
 ENV LANG="C.UTF-8"
 ENV TZ="Asia/Shanghai"
