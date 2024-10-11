@@ -1,4 +1,5 @@
 ## image=tac/centos-compile-cppcheck:latest
+# 更完整的 https://github.com/uhziel/docker-cppcheck/blob/main/Dockerfile.centos8
 
 FROM centos:8
 
