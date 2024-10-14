@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # via https://github.com/uhziel/docker-cppcheck/blob/main/Dockerfile
 FROM buildpack-deps:bullseye as build
 
