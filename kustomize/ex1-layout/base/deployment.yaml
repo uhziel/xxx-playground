@@ -17,11 +17,5 @@ spec:
       containers:
         - name: nginx
           image: nginx:alpine
-          resources:
-            requests:
-              memory: "70Mi"
-              cpu: "100m"
-            limits:
-              memory: "170Mi"
           ports:
             - containerPort: 80
