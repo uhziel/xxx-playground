@@ -1,0 +1,13 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: requires-config-dependency
+requires:
+  - git:
+      repo: https://github.com/uhziel/xxx-playground.git
+      path: skaffold/ex1-golang-ko/skaffold.yaml
+      ref: main
+  - git:
+      repo: https://github.com/uhziel/xxx-playground.git
+      path: skaffold/ex2-golang-docker/skaffold.yaml
+      ref: main
