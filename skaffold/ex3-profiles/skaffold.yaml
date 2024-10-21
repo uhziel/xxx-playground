@@ -1,0 +1,18 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: golang-ko
+build:
+  artifacts:
+    - image: hello
+      ko: {}
+manifests:
+  rawYaml:
+    - k8s.yaml
+profiles:
+  - name: staging
+    build:
+      local:
+        push: true
+    deploy:
+      kubeContext: staging
