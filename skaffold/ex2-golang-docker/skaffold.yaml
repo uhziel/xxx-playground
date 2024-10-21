@@ -4,7 +4,7 @@ metadata:
   name: golang-docker
 build:
   artifacts:
-    - image: hello
+    - image: world
       docker:
         dockerfile: Dockerfile
   local:
@@ -12,3 +12,5 @@ build:
 manifests:
   rawYaml:
     - k8s.yaml
+deploy:
+  kubectl: {}

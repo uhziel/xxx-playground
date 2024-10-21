@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hello
+  name: world
   labels:
-    app: hello
+    app: world
 spec:
   containers:
   - name: main
-    image: hello
+    image: world
