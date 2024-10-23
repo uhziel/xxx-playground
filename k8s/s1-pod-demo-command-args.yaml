@@ -4,7 +4,7 @@ metadata:
   name: s1-pod-demo-command-args
 spec:
   containers:
-  - name: debian
-    image: debian:bullseye
-    command: ["printenv"]
-    args: ["HOSTNAME", "KUBERNETES_PORT"]
+    - name: debian
+      image: debian:bullseye
+      command: ["printenv"]
+      args: ["HOSTNAME", "KUBERNETES_PORT"]
