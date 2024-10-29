@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: touch
+spec:
+  template:
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data
+      containers:
+        - name: touch
+          image: busybox:stable
+          command:
+            - "/bin/sh"
+          args:
+            - "-c"
+            - "echo finished | cat > /data/foobar.txt; cat /data/foobar.txt"
+          volumeMounts:
+            - name: data
+              mountPath: "/data"
+      restartPolicy: Never
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
