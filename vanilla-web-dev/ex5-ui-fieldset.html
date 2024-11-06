@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+via https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
+-->
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>title-foobar</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <fieldset>
+        <legend>更新密码</legend>
+        <div>
+          <label for="password">当前密码</label>
+          <input id="password" />
+        </div>
+        <div>
+          <label for="newPassword">新密码</label>
+          <input id="newPassword" />
+        </div>
+        <div>
+          <label for="confirmNewPassword">确认新密码</label>
+          <input id="confirmNewPassword" />
+        </div>
+      </fieldset>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+via https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
+-->
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>title-foobar</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .crumbs {
+        list-style-type: none;
+      }
+
+      .crumbs li {
+        display: inline-block;
+      }
+
+      .crumbs a::after {
+        display: inline-block;
+        content: '>';
+        padding: 0 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <ol class="crumbs">
+      <li><a href="#">中国</a></li>
+      <li><a href="#">湖北</a></li>
+      <li>监利</li>
+    </ol>
+  </body>
+</html>
