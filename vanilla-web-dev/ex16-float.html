@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-css-js</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .container {
+        display: inline-block;
+        vertical-align: top;
+        border: solid black;
+        width: 20rem;
+        height: 10rem;
+      }
+
+      .item {
+        border: solid red;
+        width: 3rem;
+        height: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <p>一般来说，img 使用 float，p 使用 clear</p>
+    <h2><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/float">float</a></h2>
+    <p>依次是：未指定 float、<code>float: left;</code>、<code>float: right;</code></p>
+    <p>floated elements 脱离 normal flow，往父容器的左/右方向靠。但是对于其他参与 normal flow 的元素来说，floated elements 占用的空间无法使用。</p>
+    <div class="container">
+      <div class="item"></div>
+      <p>近日，微信平台上线了 Linux 客户端的下载页，网站提供 x86、Arm 和龙芯（LoongArch）三个版本的微信客户端安装包。</p>
+    </div>
+    <div class="container">
+      <div class="item" style="float: left;"></div>
+      <p>近日，微信平台上线了 Linux 客户端的下载页，网站提供 x86、Arm 和龙芯（LoongArch）三个版本的微信客户端安装包。</p>
+    </div>
+    <div class="container">
+      <div class="item" style="float: right;"></div>
+      <p>近日，微信平台上线了 Linux 客户端的下载页，网站提供 x86、Arm 和龙芯（LoongArch）三个版本的微信客户端安装包。11111111111111111111111111111111</p>
+    </div>
+    <h2>float stack</h2>
+    <p>floated elements 会按照期望的方向、出现的顺序依次堆叠到左/右边。如果行满，则 wrap 到第二行。</p>
+    <div class="container">
+      <div class="item" style="float: left;">1</div>
+      <div class="item" style="float: left;">2</div>
+      <div class="item" style="float: left;">3</div>
+      <div class="item" style="float: left;">4</div>
+      <div class="item" style="float: right;">5</div>
+      <div class="item" style="float: right;">6</div>
+      <div class="item" style="float: right;">7</div>
+      <div class="item" style="float: left;">8</div>
+      <p>近日，微信平台上线了 Linux 客户端的下载页，网站提供 x86、Arm 和龙芯（LoongArch）三个版本的微信客户端安装包。</p>
+    </div>
+    <h2><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/clear">clear</a></h2>
+    <p>依次是：未指定 clear、<code>clear: left;</code>、<code>clear: right;</code>、<code>clear: both;</code></p>
+    <div class="container">
+      <div class="item" style="float: left;"></div>
+      <div class="item" style="float: right; height: 5rem;"></div>
+      <p>近日，微信平台上线了 Linux 客户端的下载页，网站提供 x86、Arm 和龙芯（LoongArch）三个版本的微信客户端安装包。</p>
+    </div>
+    <div class="container">
+      <div class="item" style="float: left;"></div>
+      <div class="item" style="float: right; height: 5rem;"></div>
+      <p style="clear: left;">近日，微信平台上线了 Linux 客户端的下载页，网站提供 x86、Arm 和龙芯（LoongArch）三个版本的微信客户端安装包。</p>
+    </div>
+    <div class="container">
+      <div class="item" style="float: left;"></div>
+      <div class="item" style="float: right; height: 5rem;"></div>
+      <p style="clear: right;">近日，微信平台上线了 Linux 客户端的下载页，网站提供 x86、Arm 和龙芯（LoongArch）三个版本的微信客户端安装包。</p>
+    </div>
+    <div class="container">
+      <div class="item" style="float: left;"></div>
+      <div class="item" style="float: right; height: 5rem;"></div>
+      <p style="clear: both;">近日，微信平台上线了 Linux 客户端的下载页，网站提供 x86、Arm 和龙芯（LoongArch）三个版本的微信客户端安装包。</p>
+    </div>
+  </body>
+</html>
