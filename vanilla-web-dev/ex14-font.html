@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-css-js</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .box {
+        display: inline-block;
+        width: 10rem;
+        height: 5rem;
+        border: solid black;
+        vertical-align: top;
+      }
+
+      .red {
+        border: solid red;
+      }
+
+      .green {
+        border: solid green;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h2>font-family</h2>
+      <p>字体族名</p>
+      <div class="box red" style="font-family: serif;">
+        font-family: serif;
+      </div>
+      <div class="box green" style="font-family: monospace;">
+        font-family: monospace;
+      </div>
+    </div>
+    <div>
+      <h2>font-size</h2>
+      <p>大小</p>
+      <div class="box red" style="font-size: 1rem;">
+        font-size: 1rem;
+      </div>
+      <div class="box green" style="font-size: 2rem;">
+        font-size: 2rem;
+      </div>
+    </div>
+    <div>
+      <h2>font-weight</h2>
+      <p>粗细 normal/bold</p>
+      <div class="box red" style="font-weight: normal;">
+        font-weight: normal;
+      </div>
+      <div class="box green" style="font-weight: bold;">
+        font-weight: bold;
+      </div>
+    </div>
+    <div>
+      <h2>font-style</h2>
+      <p>样式 normal/italic</p>
+      <div class="box red" style="font-style: normal;">
+        font-style: normal;
+      </div>
+      <div class="box green" style="font-style: italic;">
+        font-style: italic;
+      </div>
+    </div>
+    <div>
+      <h2>line-height</h2>
+      <p>line 的高度略高于字体的高度是有必要的。因为在多行显示时，需要上下有多余空间才美观。</p>
+      <div class="box red" style="line-height: 1.0;">
+        line-height: 1.0;
+        <br>
+        efg
+        <br>
+        123
+        <br>
+        123
+        <br>
+        123
+      </div>
+      <div class="box green" style="line-height: 2.0;">
+        line-height: 2.0;
+        <br>
+        efg
+        <br>
+        123
+        <br>
+        123
+        <br>
+        123
+      </div>
+      <p>如果不指定 `vertical-align: top`，会出现 box 不对齐的情况。</p>
+      <div class="box red" style="vertical-align: baseline; line-height: 1.0;">
+        line-height: 1.0;
+        <br>
+        efg
+      </div>
+      <div class="box green" style="vertical-align: baseline; line-height: 2.0;">
+        line-height: 2.0;
+        <br>
+        efg
+      </div>
+    </div>
+    <div>
+      <h2>letter-spacing</h2>
+      <p>字符间的空间。一般不会改它。值越大，字符间隔越远；为负值表凑近。</p>
+      <div class="box red" style="letter-spacing: normal;">
+        letter-spacing: normal;
+      </div>
+      <div class="box green" style="letter-spacing: 0.2em;">
+        line-height: 0.2em;
+      </div>
+    </div>
+  </body>
+</html>
