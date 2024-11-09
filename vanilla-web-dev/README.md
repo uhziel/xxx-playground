@@ -54,6 +54,16 @@ ex12-layout-tabliss-new-tab.html
       }
 ```
 
+## 文档有最大宽度限制，如果达最大，则居中显示
+
+```css
+      .document {
+        width: 100%;
+        max-width: 30em;
+        margin: 0 auto;
+      }
+```
+
 ## TODO
 
 参考着可以试着实现的
