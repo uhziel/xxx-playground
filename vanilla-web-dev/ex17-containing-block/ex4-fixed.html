@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+.item 为 `position: fixed;`
+
+直接使用 viewport 作为 containing box。
+-->
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-css-js</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .document {
+        width: 100%;
+        max-width: 1024px;
+        margin: 0 auto;
+      }
+
+      .container {
+        border: solid black;
+        padding: 3.5px;
+        width: 200px;
+        height: 100px;
+      }
+
+      .item { /* .item 的 containing block 为 viewport */
+        position: fixed;
+        border: solid red;
+        /* 如果不指定 top, left，该值会为 auto，会自己算一个值，并不是默认的都放在 0px 的位置 */
+        top: 10%;     /* == 508px * 10% = 50.8px */
+        left: 5%;     /* == 1440px * 5% = 72px */
+        width: 50%;   /* == 1440px(document.documentElement.clientWidth) * 50% = 720px */
+        height: 25%;  /* == 508px(document.documentElement.clientHeight) * 25% = 127px */
+        padding: 1%;  /* == 1440px * 1% = 14.4px */
+        margin: 1%;   /* == 1440px * 1% = 14.4px */
+      }
+
+    </style>
+  </head>
+  <body class="document">
+    <div class="container">
+      <p class="item">hello</p>
+    </div>
+  </body>
+</html>

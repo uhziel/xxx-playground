@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+.item 为 `position: absolute;`
+.container 也为 `position: absolute;`
+
+.item 的 containing block 为 .container，这种方式应该使用 containing block 的 padding box。
+-->
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-css-js</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .document {
+        width: 100%;
+        max-width: 1024px;
+        margin: 0 auto;
+        height: 200px;
+      }
+
+      .container {
+        position: absolute;
+        border: solid black;
+        padding: 3.5px;
+        width: 200px;
+        height: 100px;
+      }
+
+      .item { /* .item 的 containing block 为 .container */
+        position: absolute;
+        border: solid red;
+        width: 50%;   /* == 197px(去除 border) * 50% = 98.5px */
+        height: 25%;  /* == 97px(去除 border) * 25% = 24.25px */
+        padding: 1%;  /* == 197px * 1% = 1.97px */
+        margin: 1%;   /* == 197px * 1% = 1.97px */
+      }
+
+    </style>
+  </head>
+  <body class="document">
+    <div class="container">
+      <p class="item">hello</p>
+    </div>
+  </body>
+</html>

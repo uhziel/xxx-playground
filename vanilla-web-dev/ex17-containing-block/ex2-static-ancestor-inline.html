@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+.item 为 `position: static;`
+.container 不是 block element，所以 .item 会继续向上找寻合适的 containing block，最终找到 body 这个 block element。
+-->
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-css-js</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .document {
+        width: 100%;
+        max-width: 1024px;
+        margin: 0 auto;
+        height: 200px;
+      }
+
+      .container {
+        display: inline;
+        border: solid black;
+        padding: 3.5px;
+        width: 200px;
+        height: 100px;
+      }
+
+      .item { /* .item 的 containing block 为 body */
+        border: solid red;
+        width: 50%;   /* == 1024px(去除 border、padding) * 50% = 512px */
+        height: 40%;  /* == 200px(去除 border、padding) * 40% = 80px。如果不指定 body 的 height，这个值将为 0px，系统自动使用合适的高度 */
+        padding: 1%;  /* == 1024px * 1% = 10.24px */
+        margin: 1%;   /* == 1024px * 1% = 10.24px */
+      }
+
+    </style>
+  </head>
+  <body class="document">
+    <div class="container">
+      <p class="item">hello</p>
+    </div>
+  </body>
+</html>

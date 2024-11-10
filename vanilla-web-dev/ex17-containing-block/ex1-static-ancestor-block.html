@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+.item 为 `position: static;`
+.container 为 block element
+
+虽然 .container 的 `box-sizing: border-box;`，但是在计算 .item 的 size 时，还是使用的 .container 的 content-box。box-sizing 对 width, height 的计算没有任何影响，它只是影响 width, height 的含义。
+-->
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-css-js</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .document {
+        width: 100%;
+        max-width: 1024px;
+        margin: 0 auto;
+      }
+
+      .container {
+        border: solid black;
+        padding: 3.5px;
+        width: 200px;
+        height: 100px;
+      }
+
+      .item { /* .item 的 containing block 为 .container */
+        border: solid red;
+        width: 50%;   /* == 190px(去除 border、padding) * 50% = 95px */
+        height: 25%;  /* == 90px(去除 border、padding) * 25% = 22.5px */
+        padding: 1%;  /* == 190px * 1% = 1.9px */
+        margin: 1%;   /* == 190px * 1% = 1.9px */
+      }
+
+    </style>
+  </head>
+  <body class="document">
+    <div class="container">
+      <p class="item">hello</p>
+    </div>
+  </body>
+</html>
