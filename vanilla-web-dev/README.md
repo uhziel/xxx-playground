@@ -8,6 +8,7 @@
 ## css layout
 
 - ex9-bs-layout-document.html
+- ex17-flexbox.html
 - ex16-float.html
 
 ## element 配置成 viewport 的 width, height
@@ -66,10 +67,13 @@ ex12-layout-tabliss-new-tab.html
 
 ## TODO
 
+- https://getbootstrap.com/docs/5.3/examples/cover/
+
 参考着可以试着实现的
 
 - https://www.ruanyifeng.com/blog/2015/07/flex-examples.html
 - https://getbootstrap.com/docs/5.3/examples/carousel/
 - https://linux.weixin.qq.com/
+- https://www.apple.com.cn/mac-mini/ 白底黑字，蓝色链接，色彩使用的很节制。
 - https://weui.io/
 

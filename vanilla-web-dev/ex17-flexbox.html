@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-css-js</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .container {
+        display: inline-block;
+        vertical-align: top;
+        border: solid black;
+        width: 15rem;
+        height: 10rem;
+      }
+
+      .item {
+        border: solid red;
+        width: 3rem;
+        height: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>flexbox</h2>
+    <p>分别是 normal flow、flex</p>
+    <div class="container">
+      <div class="item"></div>
+    </div>
+    <div class="container" style="display: inline-flex; justify-content: center; align-items: center;">
+      <div class="item"></div>
+    </div>
+    <h2>flex container: flex-direction</h2>
+    <p>分别是 row(默认，沿着 row 方向流动), column</p>
+    <div class="container" style="display: inline-flex;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-direction: column;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+    </div>
+    <h2>flex container: flex-wrap</h2>
+    <p>分别是 nowrap(默认, 会压缩 item 的大小), wrap, wrap-reverse</p>
+    <div class="container" style="display: inline-flex;">
+      <div class="item" style="flex: 0 1 3rem;">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap-reverse;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <h2>flex container: justify-content</h2>
+    <p>分别是 normal(默认), start, center, space-between, space-around, space-evenly</p>
+    <div class="container" style="display: inline-flex;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <div class="container" style="display: inline-flex; justify-content: start;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <div class="container" style="display: inline-flex; justify-content: center;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <div class="container" style="display: inline-flex; justify-content: space-between;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <div class="container" style="display: inline-flex; justify-content: space-around;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <div class="container" style="display: inline-flex; justify-content: space-evenly;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <h2>flex container: align-items</h2>
+    <p>分别是 normal(默认), stretch, start, center, end</p>
+    <div class="container" style="display: inline-flex;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <!-- If the items are smaller than the alignment container, auto-sized items will be equally enlarged to fill the container, respecting the items' width and height limits. -->
+    <div class="container" style="display: inline-flex; align-items: stretch;">
+      <div class="item" style="height: auto;">1</div>
+      <div class="item" style="height: auto;">2</div>
+      <div class="item" style="height: auto;">3</div>
+    </div>
+    <div class="container" style="display: inline-flex; align-items: start;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <div class="container" style="display: inline-flex; align-items: center;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <div class="container" style="display: inline-flex; align-items: end;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <h2>flex container: align-content</h2>
+    <p>分别是 normal(默认), start, center, space-between, space-around</p>
+    <div class="container" style="display: inline-flex;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap; align-content: start;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap; align-content: center;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap; align-content: space-between;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap; align-content: space-around;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <h2>flex container: gap</h2>
+    <p>分别是 0, `gap: 3px;`, `row-gap: 3px;`, `column-gap: 3px;`</p>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap; gap: 3px;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap; row-gap: 3px;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-wrap: wrap; column-gap: 3px;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+    <h2>and auto margins</h2>
+    <div class="container" style="display: inline-flex;">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item" style="margin-left: auto;">3</div>
+    </div>
+    <div class="container" style="display: inline-flex;">
+      <div class="item" style="margin-right: auto;">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <div class="container" style="display: inline-flex;">
+      <div class="item" style="margin-right: auto;">1</div>
+      <div class="item">2</div>
+      <div class="item" style="margin-left: auto;">3</div>
+    </div>
+  </body>
+</html>
