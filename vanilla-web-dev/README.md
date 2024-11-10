@@ -8,7 +8,7 @@
 ## css layout
 
 - ex9-bs-layout-document.html
-- ex17-flexbox.html
+- ex18-flexbox.html
 - ex16-float.html
 
 ## element 配置成 viewport 的 width, height
