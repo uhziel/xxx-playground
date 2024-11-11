@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-css-js</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .container {
+        display: inline-block;
+        vertical-align: top;
+        border: solid black;
+        width: 20rem;
+        height: 10rem;
+      }
+
+      .item {
+        border: solid red;
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .margin-div {
+        margin: 2rem 0;
+        background: red;
+      }
+
+      .margin-p {
+        margin: 0.4rem 0 1.2rem 0;
+        background: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <h2><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin">margin</a></h2>
+    <p>依次是：未指定 margin、<code>margin: 0 5px;</code>、<code>margin: 0 -5px;</code></p>
+    <div class="container">
+      <div class="item"></div>
+      <div class="item" style="border: solid blue;"></div>
+    </div>
+    <div class="container">
+      <div class="item"></div>
+      <div class="item" style="border: solid blue; margin: 10px 0;"></div>
+    </div>
+    <div class="container">
+      <div class="item"></div>
+      <div class="item" style="border: solid blue; margin: -10px 0;"></div>
+      <p>当 margin 值为负值时，含义就不是远离，而是靠近、嵌入。</p>
+    </div>
+    <h2>auto margin</h2>
+    <p>常用的 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin-right#auto">auto</a> 有两种，一种是 Block layout mode，当左右均 auto 时，居中放置；一种是 Flexbox layout mode，左右、上下的 auto 均可生效，只要有空余空间</p>
+    <div class="container">
+      <div class="item" style="margin: 0 auto;"></div>
+    </div>
+    <div class="container">
+      <div class="item" style="margin: auto 0;"></div>
+    </div>
+    <br />
+    <div class="container" style="display: inline-flex;">
+      <div class="item" style="margin-right: auto;"></div>
+      <div class="item"></div>
+    </div>
+    <div class="container" style="display: inline-flex;">
+      <div class="item" style="margin-right: auto;"></div>
+      <div class="item" style="margin-right: auto;"></div>
+      <div class="item"></div>
+    </div>
+    <div class="container" style="display: inline-flex; flex-flow: column;">
+      <div class="item" style="margin-top: auto;"></div>
+      <div class="item" style="margin-bottom: auto;"></div>
+      <div class="item"></div>
+    </div>
+    <h2><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_box_model/Mastering_margin_collapsing">margin collapsing</a></h2>
+    <p>只针对 top, bottom margin，不会影响 left, right margin</p>
+    <p>Vertical margins on different elements that touch each other (thus have no content, padding, or borders separating them) will collapse, forming a single margin that is equal to the greater of the adjoining margins. This does not happen on horizontal margins (left and right), only vertical (top and bottom). https://css-tricks.com/almanac/properties/m/margin/</p>
+    <p>The top and bottom margins of blocks are sometimes combined (collapsed) into a single margin whose size is the largest of the individual margins (or just one of them, if they are equal), a behavior known as margin collapsing.</p>
+    <div style="border: solid black;">
+      <p class="margin-p">1</p>
+      <p class="margin-p">2</p>
+      <div class="margin-div">
+        <p class="margin-p">1</p>
+        <p class="margin-p">2</p>
+      </div>
+      <p class="margin-p">3</p>
+    </div>
+    <div style="border: solid black; display: flex;">
+      <div class="item" style="margin: 0 1rem;"></div>
+      <div class="item" style="margin: 0 1rem;"></div>
+    </div>
+  </body>
+</html>

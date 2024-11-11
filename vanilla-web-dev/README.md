@@ -67,8 +67,6 @@ ex12-layout-tabliss-new-tab.html
 
 ## TODO
 
-- https://getbootstrap.com/docs/5.3/examples/cover/
-
 参考着可以试着实现的
 
 - https://www.ruanyifeng.com/blog/2015/07/flex-examples.html

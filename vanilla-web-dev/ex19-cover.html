@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+复现 https://getbootstrap.com/docs/5.3/examples/cover/ 的 layout 核心效果
+-->
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-css-js</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        height: 100%;
+      }
+
+      .document {
+        width: 100%;
+        max-width: 1024px;
+        margin: 0 auto;
+      }
+
+      ul {
+        list-style-type: none;
+      }
+
+      li {
+        display: inline-block;
+      }
+
+    </style>
+  </head>
+  <body class="document" style="display: flex; flex-flow: column;">
+    <header style="border-bottom: solid black; margin-bottom: auto; display: flex; align-items: baseline;">
+      <h1 style="margin: 0">Cover</h1>
+      <nav style="margin-left: auto;">
+        <a href="#">Home</a>
+        <a href="#">Features</a>
+        <a href="#">About</a>
+      </nav>
+    </header>
+    <main style="text-align: center;">
+      <h2>Cover your page.</h2>
+      <p style="margin: 0 5rem 1rem 5rem;">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+      <a href="#">Learn more</a>
+    </main>
+    <footer style="color: rgba(0, 0, 0, 0.5); text-align: center; margin: auto 0 0 0">
+      <p>© 2024 by <a href="#">zhulei</a></p>
+    </footer>
+  </body>
+</html>
