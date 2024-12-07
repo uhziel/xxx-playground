@@ -1,26 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: web
 spec:
   selector:
     matchLabels:
-      app: nginx
-  replicas: 8
+      app: web
+  replicas: 2
   template:
     metadata:
       labels:
-        app: nginx
+        app: web
     spec:
       containers:
         - name: nginx
-          image: nginx
+          image: nginx:alpine
           resources:
             requests:
-              memory: "70Mi"
               cpu: "100m"
+              memory: "70Mi"
             limits:
-              memory: "170Mi"
+              cpu: "300m"
+              memory: "200Mi"
           ports:
             - containerPort: 80
       #nodeSelector:
