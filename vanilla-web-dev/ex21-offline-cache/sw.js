@@ -17,7 +17,7 @@ async function precache() {
 }
 
 self.addEventListener("install", (event) => {
-  console.log("activate", event)
+  console.log("install", event)
   event.waitUntil(precache())
 })
 
