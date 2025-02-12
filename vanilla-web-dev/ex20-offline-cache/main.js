@@ -22,9 +22,13 @@ const registerServiceWorker = async () => {
 
 registerServiceWorker()
 
-async function request(url) {
+async function request(url, method) {
+  if (!method) {
+    method = "GET"
+  }
+
   const response = await fetch(url, {
-    method: 'GET',
+    method: method,
     mode: "cors",
   })
 
@@ -73,4 +77,15 @@ async function fetchMinecraftVersions() {
 
   const output = document.getElementById("output")
   output.textContent = versions.join("\n")
+}
+
+async function fetchWebUrl() {
+  const url = document.getElementById("url-get")
+  const result = await request(url.value)
+}
+
+async function postWebUrl() {
+  const url = document.getElementById("url-post")
+  const response = await request(url.value, "POST")
+  console.log(`POST result ${response.status} ${response.statusText}`)
 }

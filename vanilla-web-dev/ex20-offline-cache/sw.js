@@ -2,8 +2,12 @@ const CACHE_VERSION = 1
 const cacheName = `mc-v${CACHE_VERSION}`
 
 const precachedResources = [
-  "http://launchermeta.mojang.com/mc/game/version_manifest.json",
   "https://launchermeta.mojang.com/mc/game/version_manifest.json",
+]
+
+const cacheableResources = [
+  ...precachedResources,
+  "https://httpbin.org/post",
 ]
 
 async function precache() {
@@ -32,20 +36,24 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(removeOutdatedCache())
 })
 
+
+// 每一次调用，都会尝试刷新 cache；只有成功(200-299)的请求才会被 cache
+// 优先返回 cache；cache 不存在，则返回网络响应的结果
+// POST request 不会被 cache，因为 cache.put 会报错 `TypeError: Failed to execute 'put' on 'Cache': Request method 'POST' is unsupporte`
 async function cacheFirstWithRefresh(request) {
-  const cache = await caches.open(cacheName);
+  const cache = await caches.open(cacheName)
   const fetchResponsePromise = fetch(request).then(async (networkResponse) => {
     if (networkResponse.ok) {
-      cache.put(request, networkResponse.clone());
+      cache.put(request, networkResponse.clone())
     }
-    return networkResponse;
-  });
+    return networkResponse
+  })
 
-  return (await cache.match(request)) || (await fetchResponsePromise);
+  return (await cache.match(request)) || (await fetchResponsePromise)
 }
 
 function isCacheable(request) {
-  return precachedResources.includes(request.url)
+  return cacheableResources.includes(request.url)
 }
 
 self.addEventListener("fetch", (event) => {
