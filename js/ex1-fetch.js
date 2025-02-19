@@ -1,26 +1,26 @@
-async function get() {
+async function get () {
   try {
-    const resp = await fetch("https://httpbin.org/get", {
+    const resp = await fetch('https://httpbin.org/get', {
       headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        "Accept": "application/json",
-      },
+        'Content-Type': 'application/json;charset=utf-8',
+        Accept: 'application/json'
+      }
     })
     if (!resp.ok) {
       const errText = await resp.text()
       throw new Error(`请求失败: ${resp.status} ${errText}`)
     }
     return await resp.json()
-  } catch(e) {
+  } catch (e) {
     console.log(e)
   }
 }
 
-async function getWithQuery() {
-  const url = new URL("https://api.modrinth.com/v2/search")
-  url.searchParams.set("limit", 3)
-  url.searchParams.set("query", "tps")
-  url.searchParams.set("facets", '[["project_type:mod"],["versions:1.21.4","versions:1.21.3","versions:1.21.2","versions:1.21.1","versions:1.21"],["categories:fabric"]]')
+async function getWithQuery () {
+  const url = new URL('https://api.modrinth.com/v2/search')
+  url.searchParams.set('limit', 3)
+  url.searchParams.set('query', 'tps')
+  url.searchParams.set('facets', '[["project_type:mod"],["versions:1.21.4","versions:1.21.3","versions:1.21.2","versions:1.21.1","versions:1.21"],["categories:fabric"]]')
 
   try {
     const resp = await fetch(url)
@@ -29,22 +29,22 @@ async function getWithQuery() {
       throw new Error(`请求失败: ${resp.status} ${errText}`)
     }
     return await resp.json()
-  } catch(e) {
+  } catch (e) {
     console.log(e)
   }
 }
 
-async function post() {
+async function post () {
   const lilei = {
-    name: "lilei",
-    age: 12,
+    name: 'lilei',
+    age: 12
   }
   try {
-    const resp = await fetch("https://httpbin.org/post", {
-      method: "POST",
+    const resp = await fetch('https://httpbin.org/post', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        "Accept": "application/json",
+        'Content-Type': 'application/json;charset=utf-8',
+        Accept: 'application/json'
       },
       body: JSON.stringify(lilei)
     })
@@ -53,18 +53,18 @@ async function post() {
       throw new Error(`请求失败: ${resp.status} ${errText}`)
     }
     return await resp.json()
-  } catch(e) {
+  } catch (e) {
     console.log(e)
   }
 }
 
-async function main() {
+async function main () {
   const respGet = await get()
-  console.log("respGet:", respGet)
+  console.log('respGet:', respGet)
   const respGetWithQuery = await getWithQuery()
-  console.log("respGetWithQuery:", respGetWithQuery)
+  console.log('respGetWithQuery:', respGetWithQuery)
   const respPost = await post()
-  console.log("respPost:", respPost)
+  console.log('respPost:', respPost)
 }
 
 await main()

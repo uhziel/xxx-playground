@@ -1,40 +1,40 @@
-function tryCatchFinally(throwError) {
-  console.log("## test try-catch-finally")
+function tryCatchFinally (throwError) {
+  console.log('## test try-catch-finally')
 
   try {
-    console.log("do work")
+    console.log('do work')
     if (throwError) {
       throw new Error()
     }
     return 1
-    console.log("do extra work")
+    console.log('do extra work')
   } catch {
-    console.log("catch")
+    console.log('catch')
     return 2
-    console.log("extra catch")
+    console.log('extra catch')
   } finally {
-    console.log("cleanup")
+    console.log('cleanup')
   }
 }
 
-function tryCatch(throwError) {
-  console.log("## test try-catch")
+function tryCatch (throwError) {
+  console.log('## test try-catch')
   try {
-    console.log("do work")
+    console.log('do work')
     if (throwError) {
       throw new Error()
     }
     return 1
-    console.log("do extra work")
+    console.log('do extra work')
   } catch {
-    console.log("catch")
+    console.log('catch')
     return 2
-    console.log("extra catch")
+    console.log('extra catch')
   }
-  console.log("cleanup")
+  console.log('cleanup')
 }
 
-async function request(url) {
+async function request (url) {
   try {
     const response = await fetch(url)
     if (!response.ok) {
@@ -51,7 +51,7 @@ async function request(url) {
   }
 }
 
-function main() {
+function main () {
   // cleanup 工作应放入 finally 中
   tryCatchFinally(true)
   tryCatch(true)
@@ -59,5 +59,5 @@ function main() {
 
 main()
 
-const resp = await request("https://httpbin.org/get")
-console.log("resp:", resp)
+const resp = await request('https://httpbin.org/get')
+console.log('resp:', resp)
