@@ -1,25 +1,35 @@
-function tryCatchFinally() {
+function tryCatchFinally(throwError) {
   console.log("## test try-catch-finally")
 
   try {
     console.log("do work")
+    if (throwError) {
+      throw new Error()
+    }
     return 1
     console.log("do extra work")
   } catch {
     console.log("catch")
+    return 2
+    console.log("extra catch")
   } finally {
     console.log("cleanup")
   }
 }
 
-function tryCatch() {
+function tryCatch(throwError) {
   console.log("## test try-catch")
   try {
     console.log("do work")
+    if (throwError) {
+      throw new Error()
+    }
     return 1
     console.log("do extra work")
   } catch {
     console.log("catch")
+    return 2
+    console.log("extra catch")
   }
   console.log("cleanup")
 }
@@ -43,8 +53,8 @@ async function request(url) {
 
 function main() {
   // cleanup 工作应放入 finally 中
-  tryCatchFinally()
-  tryCatch()
+  tryCatchFinally(true)
+  tryCatch(true)
 }
 
 main()
