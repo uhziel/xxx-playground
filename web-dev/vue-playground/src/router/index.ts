@@ -20,10 +20,12 @@ const router = createRouter({
     {
       path: '/ex1',
       name: 'ex1',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/Ex1DataFetchingView.vue'),
+    },
+    {
+      path: '/ex2',
+      name: 'ex2',
+      component: () => import('../views/Ex2WatchRefObject.vue'),
     },
   ],
 })
