@@ -1,5 +1,7 @@
 # vue-playground
 
+因为是学习，在每个示例中尽量使用 vue, js, css 自身提供的功能。除非是在试验第三方库功能，不然不要使用第三方库。
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
