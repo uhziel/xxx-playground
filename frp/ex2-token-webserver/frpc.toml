@@ -1,0 +1,15 @@
+serverAddr = "192.168.31.173"
+serverPort = 7001
+auth.token = "services-docker"
+
+webServer.addr = "127.0.0.1"
+webServer.port = 7400
+webServer.user = "admin"
+webServer.password = "admin"
+
+[[proxies]]
+name = "test-tcp"
+type = "tcp"
+localIP = "192.168.31.64"
+localPort = 22
+remotePort = 6000
